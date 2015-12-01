@@ -7,9 +7,17 @@
 //
 
 import UIKit
+import MapKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var mainMapView: MKMapView!
+    
+    @IBOutlet weak var workLocationsLabel: UILabel!
+    
+    @IBOutlet weak var hoursAtOfficeThisWeekLabel: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Hello World")
