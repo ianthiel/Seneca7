@@ -1,5 +1,5 @@
 //
-//  addWorkLocationViewController.swift
+//  AddWorkLocationViewController.swift
 //  Seneca7
 //
 //  Created by Ian Thiel on 12/2/15.
@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 class AddWorkLocationViewController: UIViewController {
     
@@ -14,5 +15,6 @@ class AddWorkLocationViewController: UIViewController {
         dismissViewControllerAnimated(true, completion: nil)
     }
     
+    @IBOutlet weak var addMapView: MKMapView!
     
 }
