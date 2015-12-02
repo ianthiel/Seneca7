@@ -8,13 +8,29 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
-class AddWorkLocationViewController: UIViewController {
+class AddWorkLocationViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
+    
+    let locationManager = CLLocationManager()
     
     @IBAction func onCancel(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBOutlet weak var addMapView: MKMapView!
+    
+    @IBAction func zoomToCurrentUserLocation(sender: AnyObject) {
+        zoomToUserLocationInMapView(addMapView)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupMap(addMapView)
+        delay(0.5) {
+            zoomToUserLocationInMapView(self.addMapView)
+        }
+    }
     
 }

@@ -93,6 +93,14 @@
                                 <rect key="frame" x="20" y="64" width="335" height="328"/>
                                 <animations/>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="23l-0d-p25">
+                                <rect key="frame" x="278" y="349" width="69" height="22"/>
+                                <animations/>
+                                <state key="normal" image="CurrentLocation"/>
+                                <connections>
+                                    <action selector="zoomToCurrentUserLocation:" destination="7K1-9b-GeO" eventType="touchUpInside" id="kbn-o4-lo6"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

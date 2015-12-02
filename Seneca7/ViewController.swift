@@ -23,7 +23,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         super.viewDidLoad()
         
         setupLocationServices()
-        setupMap()
+        setupMap(mainMapView)
         tests()
         delay(0.5) {
             zoomToUserLocationInMapView(self.mainMapView)
@@ -39,15 +39,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         locationManager.requestAlwaysAuthorization()
         // we want to begin monitoring location once the user starts the app and if we are authorized to do so
         locationManager.startUpdatingLocation()
-    }
-    
-    func setupMap() {
-        // setup map stuff
-        mainMapView.delegate = self
-        // we need the standard apple map, nothing fancy
-        mainMapView.mapType = MKMapType.Standard
-        // we want the map to display user location
-        mainMapView.showsUserLocation = true
     }
     
     @IBAction func onZoomToUserLocation(sender: AnyObject) {
