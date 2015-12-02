@@ -25,6 +25,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         setupLocationServices()
         setupMap()
         tests()
+        delay(0.5) {
+            zoomToUserLocationInMapView(self.mainMapView)
+        }
     }
     
     func setupLocationServices() {
