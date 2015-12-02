@@ -482,6 +482,7 @@
 				241D5CA11C0E4C4600DF0F41 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		241D5CA21C0E4C4600DF0F41 /* Build configuration list for PBXNativeTarget "Seneca7Tests" */ = {
 			isa = XCConfigurationList;
@@ -490,6 +491,7 @@
 				241D5CA41C0E4C4600DF0F41 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		241D5CA51C0E4C4600DF0F41 /* Build configuration list for PBXNativeTarget "Seneca7UITests" */ = {
 			isa = XCConfigurationList;
@@ -498,6 +500,7 @@
 				241D5CA71C0E4C4600DF0F41 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
