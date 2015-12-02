@@ -14,6 +14,7 @@
 		241D5C851C0E4C4600DF0F41 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 241D5C831C0E4C4600DF0F41 /* LaunchScreen.storyboard */; };
 		241D5C901C0E4C4600DF0F41 /* Seneca7Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241D5C8F1C0E4C4600DF0F41 /* Seneca7Tests.swift */; };
 		241D5C9B1C0E4C4600DF0F41 /* Seneca7UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241D5C9A1C0E4C4600DF0F41 /* Seneca7UITests.swift */; };
+		3C827F241C0F9D11008B3B98 /* AddWorkLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C827F231C0F9D11008B3B98 /* AddWorkLocationViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		241D5C961C0E4C4600DF0F41 /* Seneca7UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Seneca7UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		241D5C9A1C0E4C4600DF0F41 /* Seneca7UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Seneca7UITests.swift; sourceTree = "<group>"; };
 		241D5C9C1C0E4C4600DF0F41 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3C827F231C0F9D11008B3B98 /* AddWorkLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddWorkLocationViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 			children = (
 				241D5C7A1C0E4C4600DF0F41 /* AppDelegate.swift */,
 				241D5C7C1C0E4C4600DF0F41 /* ViewController.swift */,
+				3C827F231C0F9D11008B3B98 /* AddWorkLocationViewController.swift */,
 				241D5C7E1C0E4C4600DF0F41 /* Main.storyboard */,
 				241D5C811C0E4C4600DF0F41 /* Assets.xcassets */,
 				241D5C831C0E4C4600DF0F41 /* LaunchScreen.storyboard */,
@@ -258,6 +261,7 @@
 			files = (
 				241D5C7D1C0E4C4600DF0F41 /* ViewController.swift in Sources */,
 				241D5C7B1C0E4C4600DF0F41 /* AppDelegate.swift in Sources */,
+				3C827F241C0F9D11008B3B98 /* AddWorkLocationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

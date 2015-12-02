@@ -13,9 +13,7 @@ import MapKit
 class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
 
     @IBOutlet weak var mainMapView: MKMapView!
-    
     @IBOutlet weak var workLocationsLabel: UILabel!
-    
     @IBOutlet weak var hoursAtOfficeThisWeekLabel: UILabel!
     
     // setup a location manager as an instance of CLLocationmManager class
