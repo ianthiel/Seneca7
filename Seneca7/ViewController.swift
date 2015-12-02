@@ -24,32 +24,33 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupLocationServices()
+        setupMap()
+        tests()
+    }
+    
+    func setupLocationServices() {
         // setup location stuff
         self.locationManager.delegate = self
         // we'll need accuracy to be < 10 meters since the work space may be small
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         // we'll need "always" authorization to listen for when the user enters/leaves work
         locationManager.requestAlwaysAuthorization()
-        // we want to begin monitoring location once the user starts the app
+        // we want to begin monitoring location once the user starts the app and if we are authorized to do so
         locationManager.startUpdatingLocation()
-        
+    }
+    
+    func setupMap() {
         // setup map stuff
         mainMapView.delegate = self
         // we need the standard apple map, nothing fancy
         mainMapView.mapType = MKMapType.Standard
         // we want the map to display user location
         mainMapView.showsUserLocation = true
-        
-        if CLLocationManager.locationServicesEnabled() {
-            switch(CLLocationManager.authorizationStatus()) {
-            case .NotDetermined, .Restricted, .Denied:
-                print("No location access")
-            case .AuthorizedAlways, .AuthorizedWhenInUse:
-                print("Location access")
-            }
-        } else {
-            print("Location services are not enabled")
-        }
+    }
+    
+    func tests() {
+        print(locationManager.location)
     }
 
     override func didReceiveMemoryWarning() {
