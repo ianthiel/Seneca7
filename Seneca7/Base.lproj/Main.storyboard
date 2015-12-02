@@ -54,6 +54,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="woS-2m-Lc1">
+                        <barButtonItem key="leftBarButtonItem" image="CurrentLocation" id="TwX-pT-m6v">
+                            <connections>
+                                <action selector="onZoomToUserLocation:" destination="BYZ-38-t0r" id="i2o-v1-If7"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="fVP-ZW-8Xa">
                             <connections>
                                 <segue destination="R4J-yt-0R2" kind="presentation" id="aEv-O5-TpZ"/>
@@ -152,4 +157,7 @@
             <point key="canvasLocation" x="1781.5" y="375.5"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="CurrentLocation" width="15" height="15"/>
+    </resources>
 </document>

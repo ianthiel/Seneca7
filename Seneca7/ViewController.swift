@@ -47,6 +47,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         mainMapView.showsUserLocation = true
     }
     
+    @IBAction func onZoomToUserLocation(sender: AnyObject) {
+        zoomToUserLocationInMapView(mainMapView)
+    }
+    
     func tests() {
         print(locationManager.location)
     }
