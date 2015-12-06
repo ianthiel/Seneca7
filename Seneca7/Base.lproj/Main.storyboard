@@ -140,12 +140,18 @@
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="textFieldEditingChanged:" destination="7K1-9b-GeO" eventType="editingChanged" id="lvq-Lv-Rgu"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="in meters" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kZ5-rW-0cL">
                                 <rect key="frame" x="182" y="128" width="97" height="30"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="textFieldEditingChanged:" destination="7K1-9b-GeO" eventType="editingChanged" id="1bO-fY-dAo"/>
+                                </connections>
                             </textField>
                         </subviews>
                         <animations/>
@@ -171,6 +177,7 @@
                         <outlet property="nameLabel" destination="P4w-2C-8wo" id="ftL-yA-wxu"/>
                         <outlet property="nameTextField" destination="5M1-oW-uHo" id="hBP-i4-H7o"/>
                         <outlet property="radiusTextField" destination="kZ5-rW-0cL" id="Z6w-Fs-Utc"/>
+                        <outlet property="saveButton" destination="k5X-Zw-0zW" id="QxT-Wh-9Zz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9zd-DQ-Ror" userLabel="First Responder" sceneMemberID="firstResponder"/>

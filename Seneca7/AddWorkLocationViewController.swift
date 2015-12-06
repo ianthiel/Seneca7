@@ -28,17 +28,33 @@ class AddWorkLocationViewController: UIViewController, CLLocationManagerDelegate
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var radiusTextField: UITextField!
     
-    
-    @IBAction func onSave(sender: AnyObject) {
+    @IBAction func textFieldEditingChanged(sender: UITextField) {
+        saveButton.enabled = !radiusTextField.text!.isEmpty && !nameTextField.text!.isEmpty
     }
+    
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    
+    @IBAction private func onSave(sender: AnyObject) {
+        let coordinate = addMapView.centerCoordinate
+        let radius = Double(radiusTextField.text!)
+        let identifier = NSUUID().UUIDString
+        let name = nameTextField.text
+        delegate!.addWorkLocationViewController(self, didAddCoordinate: coordinate, radius: radius!, identifier: identifier, name: name!)
+    }
+    
     @IBOutlet weak var addMapView: MKMapView!
     
     @IBAction func zoomToCurrentUserLocation(sender: AnyObject) {
         zoomToUserLocationInMapView(addMapView)
     }
     
+    var delegate: AddWorkLocationsViewControllerDelegate!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.rightBarButtonItems = [saveButton]
+        saveButton.enabled = false
         
         setupMap(addMapView)
         delay(0.5) {
