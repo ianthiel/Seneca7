@@ -99,6 +99,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         workLocationsCountDisplay.text = "\(workLocations.count)"
     }
     
+    // MARK: AddWorkLocationViewControllerDelegate
+    
+    func addWorkLocationViewController(controller: AddWorkLocationViewController, didAddCoordinate coordinate: CLLocationCoordinate2D, radius: Double, identifier: String, name: String) {
+        controller.dismissViewControllerAnimated(true, completion: nil)
+        // add workLocation
+        let workLocation = WorkLocation(coordinate: coordinate, radius: radius, identifier: identifier, name: name)
+        addWorkLocation(workLocation)
+        saveAllWorkLocations()
+    }
+    
+    // MARK: random tests + other junk
+    
     func tests() {
         print(locationManager.location)
     }
