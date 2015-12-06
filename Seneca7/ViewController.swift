@@ -131,6 +131,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         return nil
     }
     
+    func mainMapView(mainMapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer? {
+        if overlay is MKCircle {
+            let circleRenderer = MKCircleRenderer(overlay: overlay)
+            circleRenderer.lineWidth = 1.0
+            circleRenderer.strokeColor = UIColor.purpleColor()
+            circleRenderer.fillColor = UIColor.purpleColor().colorWithAlphaComponent(0.4)
+            return circleRenderer
+        }
+        return nil
+    }
+    
     // MARK: random tests + other junk
     
     func tests() {
