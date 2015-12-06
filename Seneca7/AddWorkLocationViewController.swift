@@ -22,6 +22,15 @@ class AddWorkLocationViewController: UIViewController, CLLocationManagerDelegate
         dismissViewControllerAnimated(true, completion: nil)
     }
     
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var RadiusLabel: UILabel!
+    
+    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var radiusTextField: UITextField!
+    
+    
+    @IBAction func onSave(sender: AnyObject) {
+    }
     @IBOutlet weak var addMapView: MKMapView!
     
     @IBAction func zoomToCurrentUserLocation(sender: AnyObject) {

@@ -82,8 +82,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     func addWorkLocation(workLocation: WorkLocation) {
         workLocations.append(workLocation)
         mainMapView.addAnnotation(workLocation)
-        // addRadiusOverlayForWorkLocation(workLocation)
-        // updateWorkLocationsCount()
+        addRadiusOverlayForWorkLocation(workLocation)
+        updateWorkLocationsCount()
     }
     
     func removeWorkLocation(workLocation: WorkLocation) {
@@ -92,8 +92,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         }
         
         mainMapView.removeAnnotation(workLocation)
-        // removeRadiusOverlayForWorkLocation(workLocation)
-        // updateWorkLocationsCount()
+        removeRadiusOverlayForWorkLocation(workLocation)
+        updateWorkLocationsCount()
     }
     
     func updateWorkLocationsCount() {
