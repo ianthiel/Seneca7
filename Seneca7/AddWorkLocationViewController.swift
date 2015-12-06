@@ -61,5 +61,6 @@ class AddWorkLocationViewController: UIViewController, CLLocationManagerDelegate
             zoomToUserLocationInMapView(self.addMapView)
         }
     }
+
     
 }

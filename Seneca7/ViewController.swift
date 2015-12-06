@@ -38,6 +38,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         loadAllWorkLocations()
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "addWorkLocation" {
+            let navigationController = segue.destinationViewController as! UINavigationController
+            let vc = navigationController.viewControllers.first as! AddWorkLocationViewController
+            vc.delegate = self
+        }
+    }
+    
     func setupLocationServices() {
         // setup location stuff
         self.locationManager.delegate = self
