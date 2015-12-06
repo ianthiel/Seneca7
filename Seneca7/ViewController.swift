@@ -12,7 +12,7 @@ import MapKit
 
 let kSavedItemsKey = "savedItems"
 
-class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
+class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, AddWorkLocationsViewControllerDelegate {
 
     var workLocations = [WorkLocation]()
     
@@ -35,6 +35,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         delay(1.0) {
             zoomToUserLocationInMapView(self.mainMapView)
         }
+        loadAllWorkLocations()
     }
     
     func setupLocationServices() {
@@ -107,6 +108,27 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         let workLocation = WorkLocation(coordinate: coordinate, radius: radius, identifier: identifier, name: name)
         addWorkLocation(workLocation)
         saveAllWorkLocations()
+    }
+    
+    // MARK: MKMapViewDelegate
+    
+    func mainMapView(mainMapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        let identifier = "myWorkLocation"
+        if annotation is WorkLocation {
+            var annotationView = mainMapView.dequeueReusableAnnotationViewWithIdentifier(identifier) as? MKPinAnnotationView
+            if annotationView == nil {
+                annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                annotationView?.canShowCallout = true
+                let removeButton = UIButton(type: .Custom)
+                removeButton.frame = CGRect(x: 0, y: 0, width: 23, height: 23)
+                removeButton.setImage(UIImage(named: "DeleteWorkLocation")!, forState: .Normal)
+                annotationView?.leftCalloutAccessoryView = removeButton
+            } else {
+                annotationView?.annotation = annotation
+            }
+            return annotationView
+        }
+        return nil
     }
     
     // MARK: random tests + other junk
