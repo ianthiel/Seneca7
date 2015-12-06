@@ -142,6 +142,34 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         return nil
     }
     
+    func mainMapView(mainMapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        // delete workLocation
+        let workLocation = view.annotation as! WorkLocation
+        removeWorkLocation(workLocation)
+        saveAllWorkLocations()
+    }
+    
+    // MARK: Map overlay functions
+    
+    func addRadiusOverlayForWorkLocation(workLocation: WorkLocation) {
+        mainMapView?.addOverlay(MKCircle(centerCoordinate: workLocation.coordinate, radius: workLocation.radius))
+    }
+    
+    func removeRadiusOverlayForWorkLocation(workLocation: WorkLocation) {
+        // find exactly one overlay with the same coordinates and radius to remove
+        if let overlays = mainMapView?.overlays {
+            for overlay in overlays {
+                if let circleOverlay = overlay as? MKCircle {
+                    let coord = circleOverlay.coordinate
+                    if coord.latitude == workLocation.coordinate.latitude && coord.longitude == workLocation.coordinate.longitude && circleOverlay.radius == workLocation.radius {
+                        mainMapView?.removeOverlay(circleOverlay)
+                        break
+                    }
+                }
+            }
+        }
+    }
+    
     // MARK: random tests + other junk
     
     func tests() {
