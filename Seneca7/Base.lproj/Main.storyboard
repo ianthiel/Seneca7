@@ -46,7 +46,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="3aM-je-lyh">
-                                <rect key="frame" x="20" y="64" width="335" height="441"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="459"/>
                                 <animations/>
                             </mapView>
                         </subviews>
@@ -90,11 +90,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="tvS-0J-AUH">
-                                <rect key="frame" x="20" y="64" width="335" height="328"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <animations/>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="23l-0d-p25">
-                                <rect key="frame" x="278" y="349" width="69" height="22"/>
+                                <rect key="frame" x="291" y="591" width="74" height="56"/>
                                 <animations/>
                                 <state key="normal" image="CurrentLocation"/>
                                 <connections>
