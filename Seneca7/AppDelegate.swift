@@ -15,6 +15,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var window: UIWindow?
     
     let locationManager = CLLocationManager()
+        
+    var userDefaults = NSUserDefaults.standardUserDefaults()
+    
+    func saveTime(dateTime: NSDate) {
+        userDefaults.setValue(dateTime, forKey: "dateTime")
+        if userDefaults.valueForKey("dateTime") == nil {
+            print("No dateTime set")
+        } else {
+            print(userDefaults.valueForKey("dateTime")!)
+        }
+    }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         locationManager.delegate = self
@@ -29,6 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             if let message = noteFromRegionIdentifier(region.identifier) {
                 if let viewController = window?.rootViewController {
                     showSimpleAlertWithTitle(nil, message: "\(type) \(message)!", viewController: viewController)
+                    saveTime(NSDate())
                 }
             }
         } else {
@@ -36,6 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             notification.alertBody = "\(type) \(noteFromRegionIdentifier(region.identifier)!)"
             notification.soundName = "Default";
             UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+            saveTime(NSDate())
         }
     }
     
