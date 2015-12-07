@@ -194,6 +194,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         return region
     }
     
+    func startMonitoringWorkLocation(workLocation: WorkLocation) {
+        if !CLLocationManager.isMonitoringAvailableForClass(CLCircularRegion) {
+            
+        }
+    }
+    
     // MARK: random tests + other junk
 
     override func didReceiveMemoryWarning() {
