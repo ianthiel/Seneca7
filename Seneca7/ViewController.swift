@@ -206,6 +206,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         locationManager.startMonitoringForRegion(region)
     }
     
+    func stopMonitoringWorkLocation(workLocation: WorkLocation) {
+        for region in locationManager.monitoredRegions {
+            if let circularRegion = region as? CLCircularRegion {
+                if circularRegion.identifier == workLocation.identifier {
+                    locationManager.stopMonitoringForRegion(circularRegion)
+                }
+            }
+        }
+    }
+    
     // MARK: random tests + other junk
 
     override func didReceiveMemoryWarning() {
