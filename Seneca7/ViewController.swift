@@ -19,9 +19,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     @IBOutlet weak var mainMapView: MKMapView!
     @IBOutlet weak var workLocationsLabel: UILabel!
     @IBOutlet weak var hoursAtOfficeThisWeekLabel: UILabel!
-    @IBOutlet weak var workLocationsCountLabel: UILabel!
-    @IBOutlet weak var workLocationsCountDisplay: UILabel!
-    
     
     // setup a location manager as an instance of CLLocationmManager class
     let locationManager = CLLocationManager()
@@ -108,16 +105,22 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     func updateWorkLocationsCount() {
-        workLocationsCountDisplay.text = "\(workLocations.count)"
+        title = "Work Locations: \(workLocations.count)"
+        navigationItem.rightBarButtonItem?.enabled = (workLocations.count < 20)
+        
     }
     
     // MARK: AddWorkLocationViewControllerDelegate
     
     func addWorkLocationViewController(controller: AddWorkLocationViewController, didAddCoordinate coordinate: CLLocationCoordinate2D, radius: Double, identifier: String, name: String) {
         controller.dismissViewControllerAnimated(true, completion: nil)
+        let clampedRadius = (radius > locationManager.maximumRegionMonitoringDistance) ? locationManager.maximumRegionMonitoringDistance : radius
         // add workLocation
-        let workLocation = WorkLocation(coordinate: coordinate, radius: radius, identifier: identifier, name: name)
+        let workLocation = WorkLocation(coordinate: coordinate, radius: clampedRadius, identifier: identifier, name: name)
         addWorkLocation(workLocation)
+        
+        startMonitoringWorkLocation(workLocation)
+        
         saveAllWorkLocations()
     }
     
@@ -159,6 +162,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         // delete workLocation
         let workLocation = view.annotation as! WorkLocation
+        stopMonitoringWorkLocation(workLocation)
         removeWorkLocation(workLocation)
         saveAllWorkLocations()
     }
