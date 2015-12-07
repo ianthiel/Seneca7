@@ -24,16 +24,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         return true
     }
     
-    func handleRegionEvent(region: CLRegion!) {
+    func handleRegionEvent(region: CLRegion!, type: String) {
         if UIApplication.sharedApplication().applicationState == .Active {
             if let message = noteFromRegionIdentifier(region.identifier) {
                 if let viewController = window?.rootViewController {
-                    showSimpleAlertWithTitle(nil, message: message, viewController: viewController)
+                    showSimpleAlertWithTitle(nil, message: "\(type) \(message)!", viewController: viewController)
                 }
             }
         } else {
             var notification = UILocalNotification()
-            notification.alertBody = noteFromRegionIdentifier(region.identifier)
+            notification.alertBody = "\(type) \(noteFromRegionIdentifier(region.identifier)!)"
             notification.soundName = "Default";
             UIApplication.sharedApplication().presentLocalNotificationNow(notification)
         }
@@ -43,13 +43,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
         if region is CLCircularRegion {
-            handleRegionEvent(region)
+            handleRegionEvent(region, type: "You have entered")
         }
     }
     
     func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
         if region is CLCircularRegion {
-            handleRegionEvent(region)
+            handleRegionEvent(region, type: "You have exited")
         }
     }
 
