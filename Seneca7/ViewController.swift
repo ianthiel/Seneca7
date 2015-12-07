@@ -18,7 +18,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     @IBOutlet weak var mainMapView: MKMapView!
     
+    @IBOutlet weak var hoursWorkedDisplay: UILabel!
+    
     let locationManager = CLLocationManager()
+    
+    let userDefaults = NSUserDefaults.standardUserDefaults()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +34,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         }
         loadAllWorkLocations()
         mainMapView.delegate = self
-
+        
+        hoursWorkedDisplay.text = "Minutes Worked: \(String(userDefaults.valueForKey("minutes")!))"
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -118,7 +123,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView! {
         let identifier = "myWorkLocation"
-        print("annotation is \(annotation)")
         if annotation is WorkLocation {
             var annotationView = mainMapView.dequeueReusableAnnotationViewWithIdentifier(identifier) as? MKPinAnnotationView
             if annotationView == nil {

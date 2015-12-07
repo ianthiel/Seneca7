@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     func saveTime(dateTime: NSDate) {
         userDefaults.setValue(dateTime, forKey: "dateTime")
+        userDefaults.synchronize()
         if userDefaults.valueForKey("dateTime") == nil {
             print("No dateTime set")
         } else {
@@ -56,7 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         if region is CLCircularRegion {
             handleRegionEvent(region, type: "You have entered")
             saveTime(NSDate())
-            print("Saved time \(userDefaults.valueForKey("dateTime")) upon entering")
+            print("Saved time \(userDefaults.valueForKey("dateTime")!) upon entering")
         }
     }
     
@@ -73,10 +74,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 let new = previous + minutesPassed
                 print("new time is \(new)")
                 userDefaults.setValue(new, forKey: "minutes")
-                print("setValue for 'minutes' is now \(userDefaults.valueForKey("minutes"))")
+                userDefaults.synchronize()
+                print("setValue for 'minutes' is now \(userDefaults.valueForKey("minutes")!)")
             } else {
                 userDefaults.setValue(minutesPassed, forKey: "minutes")
-                print("No value set for minutes yet. Saved \(userDefaults.valueForKey("minutes"))")
+                userDefaults.synchronize()
+                print("No value set for minutes yet. Saved \(userDefaults.valueForKey("minutes")!)")
             }
         }
     }
