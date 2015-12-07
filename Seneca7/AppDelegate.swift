@@ -25,7 +25,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
     
     func handleRegionEvent(region: CLRegion!) {
-        print("Geofence triggered!")
+        if UIApplication.sharedApplication().applicationState == .Active {
+            if let message = noteFromRegionIdentifier(region.identifier) {
+                if let viewController = window?.rootViewController {
+                    showSimpleAlertWithTitle(nil, message: message, viewController: viewController)
+                }
+            }
+        } else {
+            var notification = UILocalNotification()
+            notification.alertBody = noteFromRegionIdentifier(region.identifier)
+            notification.soundName = "Default";
+            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+        }
     }
     
     // MARK: locationManager delegate methods
