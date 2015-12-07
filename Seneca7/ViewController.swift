@@ -91,7 +91,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         addRadiusOverlayForWorkLocation(workLocation)
         print(self.mainMapView.overlays.count)
         updateWorkLocationsCount()
-        print("addWorkLocation fired")
     }
     
     func removeWorkLocation(workLocation: WorkLocation) {
@@ -152,10 +151,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             circleRenderer.lineWidth = 1.0
             circleRenderer.strokeColor = UIColor.purpleColor()
             circleRenderer.fillColor = UIColor.purpleColor().colorWithAlphaComponent(0.4)
-            print("circleRenderer is \(circleRenderer)")
             return circleRenderer
         }
-        print("overlay is \(overlay)")
         return nil
     }
     
@@ -171,7 +168,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     func addRadiusOverlayForWorkLocation(workLocation: WorkLocation) {
         mainMapView?.addOverlay(MKCircle(centerCoordinate: workLocation.coordinate, radius: workLocation.radius))
-        print("addRadiusOverlayForWorkLocation fired")
     }
     
     func removeRadiusOverlayForWorkLocation(workLocation: WorkLocation) {
