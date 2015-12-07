@@ -31,7 +31,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
         setupLocationServices()
         setupMap(mainMapView)
-        tests()
         delay(1.0) {
             zoomToUserLocationInMapView(self.mainMapView)
         }
@@ -124,8 +123,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     // MARK: MKMapViewDelegate
     
-    func mainMapView(mainMapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView! {
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView! {
         let identifier = "myWorkLocation"
+        print("annotation is \(annotation)")
         if annotation is WorkLocation {
             var annotationView = mainMapView.dequeueReusableAnnotationViewWithIdentifier(identifier) as? MKPinAnnotationView
             if annotationView == nil {
@@ -143,18 +143,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         return nil
     }
     
-    func mainMapView(mainMapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer! {
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer! {
         if overlay is MKCircle {
             let circleRenderer = MKCircleRenderer(overlay: overlay)
             circleRenderer.lineWidth = 1.0
             circleRenderer.strokeColor = UIColor.purpleColor()
             circleRenderer.fillColor = UIColor.purpleColor().colorWithAlphaComponent(0.4)
+            print("circleRenderer is \(circleRenderer)")
             return circleRenderer
         }
+        print("overlay is \(overlay)")
         return nil
     }
     
-    func mainMapView(mainMapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         // delete workLocation
         let workLocation = view.annotation as! WorkLocation
         removeWorkLocation(workLocation)
@@ -164,7 +166,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     // MARK: Map overlay functions
     
     func addRadiusOverlayForWorkLocation(workLocation: WorkLocation) {
-        mainMapView.addOverlay(MKCircle(centerCoordinate: workLocation.coordinate, radius: workLocation.radius))
+        mainMapView?.addOverlay(MKCircle(centerCoordinate: workLocation.coordinate, radius: workLocation.radius))
         print("addRadiusOverlayForWorkLocation fired")
     }
     
@@ -184,10 +186,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     // MARK: random tests + other junk
-    
-    func tests() {
-        print(locationManager.location)
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

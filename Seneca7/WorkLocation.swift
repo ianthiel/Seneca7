@@ -22,6 +22,17 @@ class WorkLocation: NSObject, NSCoding, MKAnnotation {
     var identifier: String
     var name: String
     
+    var title: String? {
+        if name.isEmpty {
+            return "No Name"
+        }
+        return name
+    }
+    
+    var subtitle: String? {
+        return "Radius: \(radius)m"
+    }
+    
     init(coordinate: CLLocationCoordinate2D, radius: CLLocationDistance, identifier: String, name: String) {
         self.coordinate = coordinate
         self.radius = radius
