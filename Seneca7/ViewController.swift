@@ -18,7 +18,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     @IBOutlet weak var mainMapView: MKMapView!
     
-    // setup a location manager as an instance of CLLocationmManager class
     let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
@@ -35,21 +34,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        //if segue.identifier == "addWorkLocation" {
-            let navigationController = segue.destinationViewController as! UINavigationController
-            let vc = navigationController.viewControllers.first as! AddWorkLocationViewController
-            vc.delegate = self
-        //}
+        let navigationController = segue.destinationViewController as! UINavigationController
+        let vc = navigationController.viewControllers.first as! AddWorkLocationViewController
+        vc.delegate = self
     }
     
     func setupLocationServices() {
-        // setup location stuff
         self.locationManager.delegate = self
-        // we'll need accuracy to be < 10 meters since the work space may be small
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        // we'll need "always" authorization to listen for when the user enters/leaves work
         locationManager.requestAlwaysAuthorization()
-        // we want to begin monitoring location once the user starts the app and if we are authorized to do so
         locationManager.startUpdatingLocation()
     }
     
@@ -155,7 +148,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        // delete workLocation
         let workLocation = view.annotation as! WorkLocation
         stopMonitoringWorkLocation(workLocation)
         removeWorkLocation(workLocation)
