@@ -19,6 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
+        application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound, .Alert, .Badge], categories: nil))
+        UIApplication.sharedApplication().cancelAllLocalNotifications()
         return true
     }
     
