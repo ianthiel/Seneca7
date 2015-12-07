@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var window: UIWindow?
     
     let locationManager = CLLocationManager()
-        
+    
     var userDefaults = NSUserDefaults.standardUserDefaults()
     
     func saveTime(dateTime: NSDate) {
@@ -40,15 +40,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             if let message = noteFromRegionIdentifier(region.identifier) {
                 if let viewController = window?.rootViewController {
                     showSimpleAlertWithTitle(nil, message: "\(type) \(message)!", viewController: viewController)
-                    saveTime(NSDate())
                 }
             }
         } else {
-            var notification = UILocalNotification()
+            let notification = UILocalNotification()
             notification.alertBody = "\(type) \(noteFromRegionIdentifier(region.identifier)!)"
             notification.soundName = "Default";
             UIApplication.sharedApplication().presentLocalNotificationNow(notification)
-            saveTime(NSDate())
         }
     }
     
@@ -57,12 +55,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
         if region is CLCircularRegion {
             handleRegionEvent(region, type: "You have entered")
+            saveTime(NSDate())
+            print("Saved time \(userDefaults.valueForKey("dateTime")) upon entering")
         }
     }
     
     func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
         if region is CLCircularRegion {
             handleRegionEvent(region, type: "You have exited")
+            let savedTime = userDefaults.valueForKey("dateTime")
+            let secondsPassed = NSDate().timeIntervalSinceDate(savedTime as! NSDate)
+            let minutesPassed = secondsPassed / 60
+            if userDefaults.valueForKey("minutes") != nil {
+                print("vaueForKey 'minutes' not nil, entering statement")
+                let previous = userDefaults.valueForKey("minutes") as! Double
+                print("previous time is \(previous)")
+                let new = previous + minutesPassed
+                print("new time is \(new)")
+                userDefaults.setValue(new, forKey: "minutes")
+                print("setValue for 'minutes' is now \(userDefaults.valueForKey("minutes"))")
+            } else {
+                userDefaults.setValue(minutesPassed, forKey: "minutes")
+                print("No value set for minutes yet. Saved \(userDefaults.valueForKey("minutes"))")
+            }
         }
     }
 
