@@ -39,11 +39,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "addWorkLocation" {
+        //if segue.identifier == "addWorkLocation" {
             let navigationController = segue.destinationViewController as! UINavigationController
             let vc = navigationController.viewControllers.first as! AddWorkLocationViewController
             vc.delegate = self
-        }
+        //}
     }
     
     func setupLocationServices() {
@@ -120,7 +120,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     // MARK: MKMapViewDelegate
     
-    func mainMapView(mainMapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+    func mainMapView(mainMapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView! {
         let identifier = "myWorkLocation"
         if annotation is WorkLocation {
             var annotationView = mainMapView.dequeueReusableAnnotationViewWithIdentifier(identifier) as? MKPinAnnotationView
@@ -139,7 +139,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         return nil
     }
     
-    func mainMapView(mainMapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer? {
+    func mainMapView(mainMapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer! {
         if overlay is MKCircle {
             let circleRenderer = MKCircleRenderer(overlay: overlay)
             circleRenderer.lineWidth = 1.0
