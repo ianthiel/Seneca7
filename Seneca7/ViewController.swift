@@ -185,6 +185,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         }
     }
     
+    // MARK: geofencing stuff
+    
+    func regionWithWorkLocation(workLocation: WorkLocation) -> CLCircularRegion {
+        let region = CLCircularRegion(center: workLocation.coordinate, radius: workLocation.radius, identifier: workLocation.identifier)
+        region.notifyOnEntry = true
+        region.notifyOnExit = true
+        return region
+    }
+    
     // MARK: random tests + other junk
 
     override func didReceiveMemoryWarning() {
