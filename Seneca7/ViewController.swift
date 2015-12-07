@@ -196,8 +196,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     func startMonitoringWorkLocation(workLocation: WorkLocation) {
         if !CLLocationManager.isMonitoringAvailableForClass(CLCircularRegion) {
-            
+            showSimpleAlertWithTitle("Error", message: "Geofencing is not supported on this device!", viewController: self)
+            return
         }
+        if CLLocationManager.authorizationStatus() != .AuthorizedAlways {
+            showSimpleAlertWithTitle("Warning", message: "Your work location is saved but will only be activated once you grant permission to access the device location.", viewController: self)
+        }
+        let region = regionWithWorkLocation(workLocation)
+        locationManager.startMonitoringForRegion(region)
     }
     
     // MARK: random tests + other junk
