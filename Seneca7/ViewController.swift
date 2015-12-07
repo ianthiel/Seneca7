@@ -215,6 +215,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         print("Location Manager failed with the following error: \(error)")
     }
+    
+    // MARK: NSCoding
+    
+    let workWeek = [WorkWeek]()
+    
+    func saveWorkWeekHours() {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(workWeek, toFile: WorkWeek.ArchiveURL.path!)
+        if !isSuccessfulSave {
+            print("Failed to save work week hours")
+        }
+    }
         
     // MARK: random tests + other junk
 
