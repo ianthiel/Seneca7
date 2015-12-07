@@ -17,8 +17,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     var workLocations = [WorkLocation]()
     
     @IBOutlet weak var mainMapView: MKMapView!
-    @IBOutlet weak var workLocationsLabel: UILabel!
-    @IBOutlet weak var hoursAtOfficeThisWeekLabel: UILabel!
     
     // setup a location manager as an instance of CLLocationmManager class
     let locationManager = CLLocationManager()
