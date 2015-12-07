@@ -17,6 +17,7 @@
 		3C5AA8F31C0FA44A001FF292 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5AA8F21C0FA44A001FF292 /* Utilities.swift */; };
 		3C827F241C0F9D11008B3B98 /* AddWorkLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C827F231C0F9D11008B3B98 /* AddWorkLocationViewController.swift */; };
 		3CD5B8931C14B9BE001FAA29 /* WorkLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD5B8921C14B9BE001FAA29 /* WorkLocation.swift */; };
+		3CD5B8951C150FCA001FAA29 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CD5B8941C150FCA001FAA29 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		3C5AA8F21C0FA44A001FF292 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		3C827F231C0F9D11008B3B98 /* AddWorkLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddWorkLocationViewController.swift; sourceTree = "<group>"; };
 		3CD5B8921C14B9BE001FAA29 /* WorkLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkLocation.swift; sourceTree = "<group>"; };
+		3CD5B8941C150FCA001FAA29 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CD5B8951C150FCA001FAA29 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +86,7 @@
 		241D5C6E1C0E4C4600DF0F41 = {
 			isa = PBXGroup;
 			children = (
+				3CD5B8941C150FCA001FAA29 /* MapKit.framework */,
 				241D5C791C0E4C4600DF0F41 /* Seneca7 */,
 				241D5C8E1C0E4C4600DF0F41 /* Seneca7Tests */,
 				241D5C991C0E4C4600DF0F41 /* Seneca7UITests */,
@@ -202,6 +206,14 @@
 				TargetAttributes = {
 					241D5C761C0E4C4600DF0F41 = {
 						CreatedOnToolsVersion = 7.1.1;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					241D5C8A1C0E4C4600DF0F41 = {
 						CreatedOnToolsVersion = 7.1.1;

@@ -36,6 +36,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             zoomToUserLocationInMapView(self.mainMapView)
         }
         loadAllWorkLocations()
+        mainMapView.delegate = self
+
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -91,7 +93,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         workLocations.append(workLocation)
         mainMapView.addAnnotation(workLocation)
         addRadiusOverlayForWorkLocation(workLocation)
+        print(self.mainMapView.overlays.count)
         updateWorkLocationsCount()
+        print("addWorkLocation fired")
     }
     
     func removeWorkLocation(workLocation: WorkLocation) {
@@ -160,7 +164,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     // MARK: Map overlay functions
     
     func addRadiusOverlayForWorkLocation(workLocation: WorkLocation) {
-        mainMapView?.addOverlay(MKCircle(centerCoordinate: workLocation.coordinate, radius: workLocation.radius))
+        mainMapView.addOverlay(MKCircle(centerCoordinate: workLocation.coordinate, radius: workLocation.radius))
+        print("addRadiusOverlayForWorkLocation fired")
     }
     
     func removeRadiusOverlayForWorkLocation(workLocation: WorkLocation) {
