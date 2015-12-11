@@ -16,23 +16,20 @@ protocol AddWorkLocationsViewControllerDelegate {
 
 class AddWorkLocationViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
-    let locationManager = CLLocationManager()
-    
     @IBAction func onCancel(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var RadiusLabel: UILabel!
-    
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var radiusTextField: UITextField!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var addMapView: MKMapView!
     
     @IBAction func textFieldEditingChanged(sender: UITextField) {
         saveButton.enabled = !radiusTextField.text!.isEmpty && !nameTextField.text!.isEmpty
     }
-    
-    @IBOutlet weak var saveButton: UIBarButtonItem!
     
     @IBAction private func onSave(sender: AnyObject) {
         let coordinate = addMapView.centerCoordinate
@@ -42,11 +39,11 @@ class AddWorkLocationViewController: UIViewController, CLLocationManagerDelegate
         delegate!.addWorkLocationViewController(self, didAddCoordinate: coordinate, radius: radius!, identifier: identifier, name: name!)
     }
     
-    @IBOutlet weak var addMapView: MKMapView!
-    
     @IBAction func zoomToCurrentUserLocation(sender: AnyObject) {
         zoomToUserLocationInMapView(addMapView)
     }
+    
+    let locationManager = CLLocationManager()
     
     var delegate: AddWorkLocationsViewControllerDelegate!
     

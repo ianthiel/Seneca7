@@ -13,15 +13,15 @@ import MapKit
 let kSavedItemsKey = "savedItems"
 
 class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, AddWorkLocationsViewControllerDelegate {
-
-    var workLocations = [WorkLocation]()
     
     @IBOutlet weak var mainMapView: MKMapView!
-    
     @IBOutlet weak var hoursWorkedDisplay: UILabel!
+    @IBAction func onZoomToUserLocation(sender: AnyObject) {
+        zoomToUserLocationInMapView(mainMapView)
+    }
     
     let locationManager = CLLocationManager()
-    
+    var workLocations = [WorkLocation]()
     let userDefaults = NSUserDefaults.standardUserDefaults()
     
     override func viewDidLoad() {
@@ -50,10 +50,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
-    }
-    
-    @IBAction func onZoomToUserLocation(sender: AnyObject) {
-        zoomToUserLocationInMapView(mainMapView)
     }
     
     // MARK: Saving and loading functions for workLocations
