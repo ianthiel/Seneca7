@@ -38,6 +38,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         hoursWorkedDisplay.text = "Minutes Worked: \(String(userDefaults.valueForKey("minutes")!))"
     }
     
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let navigationController = segue.destinationViewController as! UINavigationController
         let vc = navigationController.viewControllers.first as! AddWorkLocationViewController
@@ -115,7 +116,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         addWorkLocation(workLocation)
         
         startMonitoringWorkLocation(workLocation)
-        
+
         saveAllWorkLocations()
     }
     
@@ -235,7 +236,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
 

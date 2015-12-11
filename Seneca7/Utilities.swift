@@ -33,10 +33,6 @@ func delay(delay:Double, closure:()->()) {
 }
 
 func setupMap(map: MKMapView) {
-    // setup map stuff
-    // map.delegate = self
-    // we need the standard apple map, nothing fancy
     map.mapType = MKMapType.Standard
-    // we want the map to display user location
     map.showsUserLocation = true
 }
