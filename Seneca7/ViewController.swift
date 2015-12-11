@@ -35,7 +35,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         loadAllWorkLocations()
         mainMapView.delegate = self
         
-        hoursWorkedDisplay.text = "Minutes Worked: \(String(userDefaults.valueForKey("minutes")!))"
+        hoursWorkedDisplay.text = "Minutes Worked: \(String(easyRound((userDefaults.valueForKey("minutes") as! Double))))"
     }
     
     

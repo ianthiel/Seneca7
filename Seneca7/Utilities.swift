@@ -36,3 +36,8 @@ func setupMap(map: MKMapView) {
     map.mapType = MKMapType.Standard
     map.showsUserLocation = true
 }
+
+func easyRound(toRound: Double) -> Double {
+    let rounded = round(toRound * 100) / 100
+    return rounded
+}
