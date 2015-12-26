@@ -200,7 +200,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="gaO-wj-AH4">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="Shl-2i-BWj">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="Shl-2i-BWj">
                             <connections>
                                 <action selector="onCancel:" destination="BOa-GS-4ro" id="gji-i4-00F"/>
                             </connections>

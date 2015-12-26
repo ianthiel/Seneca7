@@ -38,6 +38,6 @@ func setupMap(map: MKMapView) {
 }
 
 func easyRound(toRound: Double) -> Double {
-    let rounded = round(toRound * 100) / 100
+    let rounded = round(toRound * 10) / 10
     return rounded
 }
