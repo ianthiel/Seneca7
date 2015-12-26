@@ -40,9 +40,13 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
     
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let navigationController = segue.destinationViewController as! UINavigationController
-        let vc = navigationController.viewControllers.first as! AddWorkLocationViewController
-        vc.delegate = self
+        if segue.identifier == "addWorkLocationSegue" {
+            let navigationController = segue.destinationViewController as! UINavigationController
+            let vc = navigationController.viewControllers.first as! AddWorkLocationViewController
+            vc.delegate = self
+        } else {
+            return
+        }
     }
     
     func setupLocationServices() {
@@ -215,17 +219,6 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         print("Location Manager failed with the following error: \(error)")
-    }
-    
-    // MARK: NSCoding
-    
-    let workWeek = [WorkWeek]()
-    
-    func saveWorkWeekHours() {
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(workWeek, toFile: WorkWeek.ArchiveURL.path!)
-        if !isSuccessfulSave {
-            print("Failed to save work week hours")
-        }
     }
     
     // MARK: random tests + other junk

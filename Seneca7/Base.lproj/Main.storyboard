@@ -40,10 +40,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="woS-2m-Lc1">
-                        <barButtonItem key="leftBarButtonItem" image="ComboChart32" id="iEu-b0-nlm"/>
+                        <barButtonItem key="leftBarButtonItem" image="ComboChart32" id="iEu-b0-nlm">
+                            <connections>
+                                <segue destination="0fV-ii-PHR" kind="presentation" id="mO2-Jo-bw5"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="fVP-ZW-8Xa">
                             <connections>
-                                <segue destination="R4J-yt-0R2" kind="presentation" id="aEv-O5-TpZ"/>
+                                <action selector="onAdd:" destination="BYZ-38-t0r" id="Pi3-TW-eBa"/>
+                                <segue destination="R4J-yt-0R2" kind="presentation" identifier="addWorkLocationSegue" id="aEv-O5-TpZ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -179,6 +184,53 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DYE-bm-XXr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1781.5" y="375.5"/>
+        </scene>
+        <!--Work Data View Controller-->
+        <scene sceneID="3TT-aB-X2J">
+            <objects>
+                <viewController id="BOa-GS-4ro" customClass="WorkDataViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Yb1-hW-vpr"/>
+                        <viewControllerLayoutGuide type="bottom" id="f21-jm-C12"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="QQt-vo-fZG">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="gaO-wj-AH4">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="Shl-2i-BWj">
+                            <connections>
+                                <action selector="onCancel:" destination="BOa-GS-4ro" id="gji-i4-00F"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bAt-2P-T12" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2252.5" y="1220.5"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="aDh-Hv-7w8">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0fV-ii-PHR" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="25b-dm-iPU">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BOa-GS-4ro" kind="relationship" relationship="rootViewController" id="xPQ-Ts-Bzf"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VZc-sx-Qp6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1781.5" y="1220.5"/>
         </scene>
     </scenes>
     <resources>
