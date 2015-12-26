@@ -15,7 +15,6 @@ let kSavedItemsKey = "savedItems"
 class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, AddWorkLocationsViewControllerDelegate {
     
     @IBOutlet weak var mainMapView: MKMapView!
-    @IBOutlet weak var hoursWorkedDisplay: UILabel!
     @IBAction func onZoomToUserLocation(sender: AnyObject) {
         zoomToUserLocationInMapView(mainMapView)
     }
@@ -34,9 +33,7 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
         }
         loadAllWorkLocations()
         mainMapView.delegate = self
-        
-        hoursWorkedDisplay.text = "Minutes Worked: \(String(easyRound((userDefaults.valueForKey("minutes") as! Double))))"
-    }
+}
     
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

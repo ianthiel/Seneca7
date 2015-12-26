@@ -14,8 +14,13 @@ class WorkDataViewController: UIViewController {
         dismissViewControllerAnimated(true, completion: nil)
     }
     
+    @IBOutlet weak var hoursWorkedDisplay: UILabel!
+    
+    var userDefaults = NSUserDefaults.standardUserDefaults()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        hoursWorkedDisplay.text = "Minutes Worked: \(String(easyRound((userDefaults.valueForKey("minutes") as! Double))))"        
     }
     
     override func didReceiveMemoryWarning() {
