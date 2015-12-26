@@ -42,7 +42,7 @@
                     <navigationItem key="navigationItem" id="woS-2m-Lc1">
                         <barButtonItem key="leftBarButtonItem" image="ComboChart32" id="iEu-b0-nlm">
                             <connections>
-                                <segue destination="0fV-ii-PHR" kind="presentation" id="mO2-Jo-bw5"/>
+                                <segue destination="0fV-ii-PHR" kind="presentation" identifier="workDataSegue" id="mO2-Jo-bw5"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="fVP-ZW-8Xa">
@@ -188,7 +188,7 @@
         <!--Work Data View Controller-->
         <scene sceneID="3TT-aB-X2J">
             <objects>
-                <viewController id="BOa-GS-4ro" customClass="WorkDataViewController" sceneMemberID="viewController">
+                <viewController id="BOa-GS-4ro" customClass="WorkDataViewController" customModule="Seneca7" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Yb1-hW-vpr"/>
                         <viewControllerLayoutGuide type="bottom" id="f21-jm-C12"/>
