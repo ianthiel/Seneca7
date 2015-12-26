@@ -18,11 +18,18 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="3aM-je-lyh">
-                                <rect key="frame" x="0.0" y="101" width="375" height="566"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="Akr-Xk-N5X"/>
                                 </connections>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x1H-fF-F0R">
+                                <rect key="frame" x="325" y="617" width="30" height="30"/>
+                                <state key="normal" image="DefineLocation"/>
+                                <connections>
+                                    <action selector="onZoomToUserLocation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PRb-hs-64A"/>
+                                </connections>
+                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="-" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zd5-D5-rUq">
                                 <rect key="frame" x="20" y="72" width="335" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -33,11 +40,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="woS-2m-Lc1">
-                        <barButtonItem key="leftBarButtonItem" image="CurrentLocation" id="TwX-pT-m6v">
-                            <connections>
-                                <action selector="onZoomToUserLocation:" destination="BYZ-38-t0r" id="i2o-v1-If7"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="leftBarButtonItem" image="ComboChart32" id="iEu-b0-nlm"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="fVP-ZW-8Xa">
                             <connections>
                                 <segue destination="R4J-yt-0R2" kind="presentation" id="aEv-O5-TpZ"/>
@@ -45,7 +48,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="hoursWorkedDisplay" destination="zd5-D5-rUq" id="17E-7X-H9C"/>
                         <outlet property="mainMapView" destination="3aM-je-lyh" id="w4V-c5-OLp"/>
@@ -70,13 +72,6 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="tvS-0J-AUH">
                                 <rect key="frame" x="0.0" y="175" width="375" height="492"/>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="23l-0d-p25">
-                                <rect key="frame" x="291" y="591" width="74" height="56"/>
-                                <state key="normal" image="CurrentLocation"/>
-                                <connections>
-                                    <action selector="zoomToCurrentUserLocation:" destination="7K1-9b-GeO" eventType="touchUpInside" id="kbn-o4-lo6"/>
-                                </connections>
-                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="AddPin" translatesAutoresizingMaskIntoConstraints="NO" id="BlT-bc-Xgz">
                                 <rect key="frame" x="146" y="381" width="82" height="79"/>
                             </imageView>
@@ -108,6 +103,13 @@
                                     <action selector="textFieldEditingChanged:" destination="7K1-9b-GeO" eventType="editingChanged" id="1bO-fY-dAo"/>
                                 </connections>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="23l-0d-p25">
+                                <rect key="frame" x="325" y="617" width="30" height="30"/>
+                                <state key="normal" image="DefineLocation"/>
+                                <connections>
+                                    <action selector="zoomToCurrentUserLocation:" destination="7K1-9b-GeO" eventType="touchUpInside" id="kbn-o4-lo6"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -181,6 +183,7 @@
     </scenes>
     <resources>
         <image name="AddPin" width="75" height="75"/>
-        <image name="CurrentLocation" width="15" height="15"/>
+        <image name="ComboChart32" width="32" height="32"/>
+        <image name="DefineLocation" width="100" height="100"/>
     </resources>
 </document>
