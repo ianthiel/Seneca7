@@ -20,6 +20,7 @@
 		3CAFC7F31C2E41DC0048926F /* WorkDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CAFC7F21C2E41DC0048926F /* WorkDataViewController.swift */; };
 		3CD5B8931C14B9BE001FAA29 /* WorkLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD5B8921C14B9BE001FAA29 /* WorkLocation.swift */; };
 		3CD5B8951C150FCA001FAA29 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CD5B8941C150FCA001FAA29 /* MapKit.framework */; };
+		60632622761A7E3C7EA59137 /* Pods_Seneca7.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35757FE333C75B72E5F81704 /* Pods_Seneca7.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A368F2B5F0767046D89E44A /* Pods-Seneca7.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Seneca7.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Seneca7/Pods-Seneca7.debug.xcconfig"; sourceTree = "<group>"; };
 		241D5C771C0E4C4600DF0F41 /* Seneca7.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Seneca7.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		241D5C7A1C0E4C4600DF0F41 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		241D5C7C1C0E4C4600DF0F41 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -53,12 +55,14 @@
 		241D5C961C0E4C4600DF0F41 /* Seneca7UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Seneca7UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		241D5C9A1C0E4C4600DF0F41 /* Seneca7UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Seneca7UITests.swift; sourceTree = "<group>"; };
 		241D5C9C1C0E4C4600DF0F41 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		35757FE333C75B72E5F81704 /* Pods_Seneca7.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Seneca7.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C5AA8F21C0FA44A001FF292 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		3C827F231C0F9D11008B3B98 /* AddWorkLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddWorkLocationViewController.swift; sourceTree = "<group>"; };
 		3CAFC7F01C2E1F5C0048926F /* WorkLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkLocationViewController.swift; sourceTree = "<group>"; };
 		3CAFC7F21C2E41DC0048926F /* WorkDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkDataViewController.swift; sourceTree = "<group>"; };
 		3CD5B8921C14B9BE001FAA29 /* WorkLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkLocation.swift; sourceTree = "<group>"; };
 		3CD5B8941C150FCA001FAA29 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		DA3B9F117AAB8F3014F93B5E /* Pods-Seneca7.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Seneca7.release.xcconfig"; path = "Pods/Target Support Files/Pods-Seneca7/Pods-Seneca7.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +71,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3CD5B8951C150FCA001FAA29 /* MapKit.framework in Frameworks */,
+				60632622761A7E3C7EA59137 /* Pods_Seneca7.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +92,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		234FC0ED94FF26EFA6536059 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1A368F2B5F0767046D89E44A /* Pods-Seneca7.debug.xcconfig */,
+				DA3B9F117AAB8F3014F93B5E /* Pods-Seneca7.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		241D5C6E1C0E4C4600DF0F41 = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +109,8 @@
 				241D5C8E1C0E4C4600DF0F41 /* Seneca7Tests */,
 				241D5C991C0E4C4600DF0F41 /* Seneca7UITests */,
 				241D5C781C0E4C4600DF0F41 /* Products */,
+				234FC0ED94FF26EFA6536059 /* Pods */,
+				4356599B7DDEBB8BE324A688 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -144,6 +160,14 @@
 			path = Seneca7UITests;
 			sourceTree = "<group>";
 		};
+		4356599B7DDEBB8BE324A688 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				35757FE333C75B72E5F81704 /* Pods_Seneca7.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -151,9 +175,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 241D5C9F1C0E4C4600DF0F41 /* Build configuration list for PBXNativeTarget "Seneca7" */;
 			buildPhases = (
+				F2C7C1BC76D5D0B77C729CFC /* Check Pods Manifest.lock */,
 				241D5C731C0E4C4600DF0F41 /* Sources */,
 				241D5C741C0E4C4600DF0F41 /* Frameworks */,
 				241D5C751C0E4C4600DF0F41 /* Resources */,
+				F24799ABA03D392AECEC47EE /* Embed Pods Frameworks */,
+				74E697C010F0C7DB0BAA6DDA /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -277,6 +304,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		74E697C010F0C7DB0BAA6DDA /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Seneca7/Pods-Seneca7-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F24799ABA03D392AECEC47EE /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Seneca7/Pods-Seneca7-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F2C7C1BC76D5D0B77C729CFC /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		241D5C731C0E4C4600DF0F41 /* Sources */ = {
@@ -427,6 +502,7 @@
 		};
 		241D5CA01C0E4C4600DF0F41 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1A368F2B5F0767046D89E44A /* Pods-Seneca7.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Seneca7/Info.plist;
@@ -438,6 +514,7 @@
 		};
 		241D5CA11C0E4C4600DF0F41 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DA3B9F117AAB8F3014F93B5E /* Pods-Seneca7.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Seneca7/Info.plist;
