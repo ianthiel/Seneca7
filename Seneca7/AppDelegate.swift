@@ -8,6 +8,8 @@
 
 import UIKit
 import CoreLocation
+import Parse
+import Bolts
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
@@ -33,6 +35,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         locationManager.requestAlwaysAuthorization()
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound, .Alert, .Badge], categories: nil))
         UIApplication.sharedApplication().cancelAllLocalNotifications()
+        
+        // MARK: Parse setup
+        Parse.enableLocalDatastore()
+        Parse.setApplicationId("40EKKWRWCZnJFP72EwpYXs404d8IqXveNtN1z3Vb", clientKey: "rJvQIObidRjZL59IMbKGbtKhhvmmvcgENaDW3NPD")
+        PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
+        
         return true
     }
     
@@ -58,6 +66,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             handleRegionEvent(region, type: "You have entered")
             saveTime(NSDate())
             print("Saved time \(userDefaults.valueForKey("dateTime")!) upon entering")
+            
+            // MARK: Parse logging
+            let workEvent = PFObject(className: "WorkEvent")
+            workEvent["EventDateTime"] = NSDate()
+            workEvent["UserID"] = UIDevice.currentDevice().identifierForVendor!.UUIDString
+            workEvent["EventType"] = "Enter"
+            workEvent.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in print("Object has been saved.")
+            }
         }
     }
     
@@ -80,6 +96,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 userDefaults.setValue(minutesPassed, forKey: "minutes")
                 userDefaults.synchronize()
                 print("No value set for minutes yet. Saved \(userDefaults.valueForKey("minutes")!)")
+            }
+            
+            // MARK: Parse logging
+            let workEvent = PFObject(className: "WorkEvent")
+            workEvent["EventDateTime"] = NSDate()
+            workEvent["UserID"] = UIDevice.currentDevice().identifierForVendor!.UUIDString
+            workEvent["EventType"] = "Exit"
+            workEvent.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in print("Object has been saved.")
             }
         }
     }
