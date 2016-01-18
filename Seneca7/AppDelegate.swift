@@ -10,6 +10,7 @@ import UIKit
 import CoreLocation
 import Parse
 import Bolts
+import SwiftDate
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
@@ -74,6 +75,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             workEvent["EventType"] = "Enter"
             workEvent.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in print("Object has been saved.")
             }
+            let date = NSDate()
+            print(date.weekday)
+            print(date.weekOfYear)
         }
     }
     
