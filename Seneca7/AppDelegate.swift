@@ -64,8 +64,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
         if region is CLCircularRegion {
+            let date = NSDate()
             handleRegionEvent(region, type: "You have entered")
-            saveTime(NSDate())
+            saveTime(date)
             print("Saved time \(userDefaults.valueForKey("dateTime")!) upon entering")
             
             // MARK: Parse logging
@@ -75,9 +76,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             workEvent["EventType"] = "Enter"
             workEvent.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in print("Object has been saved.")
             }
-            let date = NSDate()
-            print(date.weekday)
-            print(date.weekOfYear)
+            
+            print(NSDate().descriptionWithLocale(NSLocale.currentLocale()))
+            
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "hh:mm"
+            print(dateFormatter.stringFromDate(NSDate()))
+            
+            let currentDay = date.weekday
+            let currentWeek = date.weekOfYear
+            let currentMonth = date.month
+            let currentYear = date.year
+            print(currentDay)
+            print(currentWeek)
+            print(currentMonth)
+            print(currentYear)
+            print(NSLocale.currentLocale())
+            print(date)
+            
+            let localDate = DateInRegion(refDate: NSDate(), cal: CalendarType.Gregorian, locale: NSLocale.currentLocale())
+            print(localDate.localDate!)
+            print(localDate.localDate!)
+            print(localDate.weekday!)
+            print(localDate.weekOfYear)
+            print(localDate.month)
+            print(localDate.year)
+            print(localDate)
+            
         }
     }
     
