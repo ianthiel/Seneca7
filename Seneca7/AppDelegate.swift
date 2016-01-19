@@ -74,14 +74,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             workEvent["EventDateTime"] = NSDate()
             workEvent["UserID"] = UIDevice.currentDevice().identifierForVendor!.UUIDString
             workEvent["EventType"] = "Enter"
-            workEvent.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in print("Object has been saved.")
+            workEvent.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in print("WorkEvent enter object has been saved.")
             }
             
+            // MARK: date tests
             print(NSDate().descriptionWithLocale(NSLocale.currentLocale()))
-            
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = "hh:mm"
-            print(dateFormatter.stringFromDate(NSDate()))
             
             let currentDay = date.weekday
             let currentWeek = date.weekOfYear
@@ -91,23 +88,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             print(currentWeek)
             print(currentMonth)
             print(currentYear)
-            print(NSLocale.currentLocale())
             print(date)
             
-            let localDate = DateInRegion(refDate: NSDate(), cal: CalendarType.Gregorian, locale: NSLocale.currentLocale())
-            print(localDate.localDate!)
-            print(localDate.localDate!)
-            print(localDate.weekday!)
+            let userRegion = Region(calType: CalendarType.Gregorian, loc: NSLocale.currentLocale())
+            let localDate = date.inRegion(userRegion).localDate!
+            print(localDate)
+            print(localDate.weekday)
             print(localDate.weekOfYear)
             print(localDate.month)
             print(localDate.year)
-            print(localDate)
-            
         }
     }
     
     func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
         if region is CLCircularRegion {
+            
+            let date = NSDate()
+            let userRegion = Region(calType: CalendarType.Gregorian, loc: NSLocale.currentLocale())
+            let localDate = date.inRegion(userRegion).localDate!
+            
             handleRegionEvent(region, type: "You have exited")
             let savedTime = userDefaults.valueForKey("dateTime")
             let secondsPassed = NSDate().timeIntervalSinceDate(savedTime as! NSDate)
@@ -132,8 +131,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             workEvent["EventDateTime"] = NSDate()
             workEvent["UserID"] = UIDevice.currentDevice().identifierForVendor!.UUIDString
             workEvent["EventType"] = "Exit"
-            workEvent.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in print("Object has been saved.")
+            workEvent.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in print("WorkEvent exit object has been saved.")
             }
+            
+            let years = PFObject(className: "Years")
+            years["UserID"] = UIDevice.currentDevice().identifierForVendor!.UUIDString
+            years["Year"] = localDate.year
+            years["Time"] = userDefaults.valueForKey("minutes")
+            years.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in print("Years object saved.")
+            }
+
         }
     }
 

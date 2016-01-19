@@ -104,7 +104,6 @@
 		241D5C6E1C0E4C4600DF0F41 = {
 			isa = PBXGroup;
 			children = (
-				3CD5B8941C150FCA001FAA29 /* MapKit.framework */,
 				241D5C791C0E4C4600DF0F41 /* Seneca7 */,
 				241D5C8E1C0E4C4600DF0F41 /* Seneca7Tests */,
 				241D5C991C0E4C4600DF0F41 /* Seneca7UITests */,
@@ -163,6 +162,7 @@
 		4356599B7DDEBB8BE324A688 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3CD5B8941C150FCA001FAA29 /* MapKit.framework */,
 				35757FE333C75B72E5F81704 /* Pods_Seneca7.framework */,
 			);
 			name = Frameworks;
