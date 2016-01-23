@@ -52,7 +52,6 @@ class WorkDataViewController: UIViewController {
         
         let query = PFQuery(className: "Days")
         query.whereKey("UserID", equalTo: userID)
-        query.whereKey("Day", equalTo: "\(localDate.year).\(localDate.month).\(localDate.day)")
         query.findObjectsInBackgroundWithBlock {
             (objects: [PFObject]?, error: NSError?) -> Void in
             
