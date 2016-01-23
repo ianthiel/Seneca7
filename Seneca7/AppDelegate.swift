@@ -146,7 +146,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                             } else {
                                 years["UserID"] = userID
                                 years["Year"] = localDate.year
-                                years["Time"] = self.valueForKey("Time") as! Double + minutesPassed
+                                years["Time"] = minutesPassed
                                 years.saveInBackground()
                             }
 
@@ -185,7 +185,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                             } else {
                                 days["UserID"] = userID
                                 days["Day"] = "\(localDate.year).\(localDate.month).\(localDate.day)"
-                                days["Time"] = self.valueForKey("Time") as! Double + minutesPassed
+                                days["Time"] = minutesPassed
                                 days.saveInBackground()
                             }
                         }

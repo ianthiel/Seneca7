@@ -61,7 +61,9 @@ class WorkDataViewController: UIViewController {
                 // Do something with the found objects
                 if let objects = objects {
                     for object in objects {
-                        if object.valueForKey("Day") as! String == "\(localDate.year).\(localDate.month).\(localDate.day)" {
+                        if object.valueForKey("Day") as! String != "\(localDate.year).\(localDate.month).\(localDate.day)" {
+                            print("day didn't match currentLocalDate")
+                        } else {
                             let minutesWorkedTotal = object.valueForKey("Time")! as! Double
                             let hoursWorkedTotal = minutesWorkedTotal / 60.0
                             let hoursWorked = Int(floor(hoursWorkedTotal))
@@ -75,8 +77,6 @@ class WorkDataViewController: UIViewController {
                             } else {
                                 self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hours and \(minutesWorked) minutes at work."
                             }
-                        } else {
-                            return
                         }
                     }
                 }
