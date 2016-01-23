@@ -62,7 +62,23 @@ class WorkDataViewController: UIViewController {
                 // Do something with the found objects
                 if let objects = objects {
                     for object in objects {
-                        self.hoursWorkedTodayDisplay.text = "\(object.valueForKey("Time")!) minutes"
+                        if object.valueForKey("Day") as! String == "\(localDate.year).\(localDate.month).\(localDate.day)" {
+                            let minutesWorkedTotal = object.valueForKey("Time")! as! Double
+                            let hoursWorkedTotal = minutesWorkedTotal / 60.0
+                            let hoursWorked = Int(floor(hoursWorkedTotal))
+                            let minutesWorked = Int(floor(minutesWorkedTotal % 60.0))
+                            if hoursWorked == 1 && minutesWorked == 1 {
+                                self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hour and \(minutesWorked) minute at work."
+                            } else if hoursWorked == 1 {
+                                self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hour and \(minutesWorked) minutes at work."
+                            } else if minutesWorked == 1 {
+                                self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hours and \(minutesWorked) minute at work."
+                            } else {
+                                self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hours and \(minutesWorked) minutes at work."
+                            }
+                        } else {
+                            return
+                        }
                     }
                 }
             } else {
