@@ -126,21 +126,99 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 print("No value set for minutes yet. Saved \(userDefaults.valueForKey("minutes")!)")
             }
             
+            // MARK: Parse constants
+            
+            let minutes = userDefaults.valueForKey("minutes")!
+            let userID = UIDevice.currentDevice().identifierForVendor!.UUIDString
+            
             // MARK: Parse logging
             let workEvent = PFObject(className: "WorkEvent")
             workEvent["EventDateTime"] = NSDate()
-            workEvent["UserID"] = UIDevice.currentDevice().identifierForVendor!.UUIDString
+            workEvent["UserID"] = userID
             workEvent["EventType"] = "Exit"
             workEvent.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in print("WorkEvent exit object has been saved.")
             }
             
+            // MARK: Begin Parse TIME logging
+            
+            // MARK: Begin Parse YEAR logging
+            
             let years = PFObject(className: "Years")
-            years["UserID"] = UIDevice.currentDevice().identifierForVendor!.UUIDString
-            years["Year"] = localDate.year
-            years["Time"] = userDefaults.valueForKey("minutes")
-            years.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in print("Years object saved.")
-            }
+            let yearsQuery = PFQuery(className:"Years")
+            yearsQuery.whereKey("UserID", equalTo:userID)
+            yearsQuery.findObjectsInBackgroundWithBlock {
+                (objects: [PFObject]?, error: NSError?) -> Void in
+                
+                if error == nil {
+                    // The find succeeded.
+                    print("Successfully retrieved \(objects!.count) years objects.")
+                    if objects!.count == 0 {
+                        // This is a new user with no saved "Time"
+                        years["UserID"] = userID
+                        years["Year"] = localDate.year
+                        years["Time"] = minutesPassed
+                        years.saveInBackground()
+                        
+                    } else if let objects = objects {
+                        for object in objects {
+                            if object.valueForKey("Year") as! Int == localDate.year {
+                                let newTime = object.valueForKey("Time") as! Double + minutesPassed
+                                object.setValue(newTime, forKey: "Time")
+                                object.saveInBackground()
+                            } else {
+                                years["UserID"] = userID
+                                years["Year"] = localDate.year
+                                years["Time"] = self.valueForKey("Time") as! Double + minutesPassed
+                                years.saveInBackground()
+                            }
 
+                        }
+                    }
+                } else {
+                    // Log details of the failure
+                    print("Error: \(error!) \(error!.userInfo)")
+                }
+            }
+            
+            // MARK: Begin Parse DAY logging
+
+            let days = PFObject(className: "Days")
+            let daysQuery = PFQuery(className:"Days")
+            daysQuery.whereKey("UserID", equalTo:userID)
+            daysQuery.findObjectsInBackgroundWithBlock {
+                (objects: [PFObject]?, error: NSError?) -> Void in
+                
+                if error == nil {
+                    // The find succeeded.
+                    print("Successfully retrieved \(objects!.count) days objects.")
+                    if objects!.count == 0 {
+                        // This is a new user with no saved "Time"
+                        days["UserID"] = userID
+                        days["Day"] = "\(localDate.year).\(localDate.month).\(localDate.day)"
+                        days["Time"] = minutesPassed
+                        days.saveInBackground()
+                        
+                    } else if let objects = objects {
+                        for object in objects {
+                            if object.valueForKey("Day") as! String == "\(localDate.year).\(localDate.month).\(localDate.day)" {
+                                let newTime = object.valueForKey("Time") as! Double + minutesPassed
+                                object.setValue(newTime, forKey: "Time")
+                                object.saveInBackground()
+                            } else {
+                                days["UserID"] = userID
+                                days["Day"] = "\(localDate.year).\(localDate.month).\(localDate.day)"
+                                days["Time"] = self.valueForKey("Time") as! Double + minutesPassed
+                                days.saveInBackground()
+                            }
+                            
+                        }
+                    }
+                } else {
+                    // Log details of the failure
+                    print("Error: \(error!) \(error!.userInfo)")
+                }
+            }
+            
         }
     }
 
