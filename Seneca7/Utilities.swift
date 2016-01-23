@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import SwiftDate
 
 func showSimpleAlertWithTitle(title: String!, message: String, viewController: UIViewController) {
     let alert = UIAlertController(title: title, message: message, preferredStyle:  .Alert)

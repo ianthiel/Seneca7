@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Parse
+import SwiftDate
 
 class WorkDataViewController: UIViewController {
     
@@ -14,13 +16,16 @@ class WorkDataViewController: UIViewController {
         dismissViewControllerAnimated(true, completion: nil)
     }
     
+    @IBOutlet weak var hoursWorkedTodayDisplay: UILabel!
     @IBOutlet weak var hoursWorkedDisplay: UILabel!
     
     var userDefaults = NSUserDefaults.standardUserDefaults()
+    let userID = UIDevice.currentDevice().identifierForVendor!.UUIDString
     
     override func viewDidLoad() {
         super.viewDidLoad()
         convertHoursToHoursMinutesAndPrint()
+        displayHoursWorkedToday()
     }
     
     func convertHoursToHoursMinutesAndPrint() {
@@ -36,6 +41,34 @@ class WorkDataViewController: UIViewController {
             hoursWorkedDisplay.text = "All time: \(hoursWorked) hours and \(minutesWorked) minute at work."
         } else {
             hoursWorkedDisplay.text = "All time: \(hoursWorked) hours and \(minutesWorked) minutes at work."
+        }
+    }
+    
+    func displayHoursWorkedToday() {
+        
+        let date = NSDate()
+        let userRegion = Region(calType: CalendarType.Gregorian, loc: NSLocale.currentLocale())
+        let localDate = date.inRegion(userRegion).localDate!
+        
+        let query = PFQuery(className: "Days")
+        query.whereKey("UserID", equalTo: userID)
+        query.whereKey("Day", equalTo: "\(localDate.year).\(localDate.month).\(localDate.day)")
+        query.findObjectsInBackgroundWithBlock {
+            (objects: [PFObject]?, error: NSError?) -> Void in
+            
+            if error == nil {
+                // The find succeeded.
+                print("Successfully retrieved \(objects!.count) scores.")
+                // Do something with the found objects
+                if let objects = objects {
+                    for object in objects {
+                        self.hoursWorkedTodayDisplay.text = "\(object.valueForKey("Time")!) minutes"
+                    }
+                }
+            } else {
+                // Log details of the failure
+                print("Error: \(error!) \(error!.userInfo)")
+            }
         }
     }
     

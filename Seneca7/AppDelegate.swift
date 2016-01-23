@@ -76,27 +76,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             workEvent["EventType"] = "Enter"
             workEvent.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in print("WorkEvent enter object has been saved.")
             }
-            
-            // MARK: date tests
-            print(NSDate().descriptionWithLocale(NSLocale.currentLocale()))
-            
-            let currentDay = date.weekday
-            let currentWeek = date.weekOfYear
-            let currentMonth = date.month
-            let currentYear = date.year
-            print(currentDay)
-            print(currentWeek)
-            print(currentMonth)
-            print(currentYear)
-            print(date)
-            
-            let userRegion = Region(calType: CalendarType.Gregorian, loc: NSLocale.currentLocale())
-            let localDate = date.inRegion(userRegion).localDate!
-            print(localDate)
-            print(localDate.weekday)
-            print(localDate.weekOfYear)
-            print(localDate.month)
-            print(localDate.year)
         }
     }
     
@@ -128,7 +107,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             
             // MARK: Parse constants
             
-            let minutes = userDefaults.valueForKey("minutes")!
             let userID = UIDevice.currentDevice().identifierForVendor!.UUIDString
             
             // MARK: Parse logging
@@ -210,7 +188,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                                 days["Time"] = self.valueForKey("Time") as! Double + minutesPassed
                                 days.saveInBackground()
                             }
-                            
                         }
                     }
                 } else {
@@ -218,7 +195,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                     print("Error: \(error!) \(error!.userInfo)")
                 }
             }
-            
         }
     }
 
