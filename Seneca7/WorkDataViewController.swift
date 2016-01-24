@@ -9,6 +9,7 @@
 import UIKit
 import Parse
 import SwiftDate
+import CoreLocation
 
 class WorkDataViewController: UIViewController {
     
@@ -18,6 +19,8 @@ class WorkDataViewController: UIViewController {
     
     @IBOutlet weak var hoursWorkedTodayDisplay: UILabel!
     @IBOutlet weak var hoursWorkedDisplay: UILabel!
+    
+    let locationManager = CLLocationManager()
     
     var userDefaults = NSUserDefaults.standardUserDefaults()
     let userID = UIDevice.currentDevice().identifierForVendor!.UUIDString
@@ -57,12 +60,10 @@ class WorkDataViewController: UIViewController {
             
             if error == nil {
                 // The find succeeded.
-                print("Successfully retrieved \(objects!.count) scores.")
                 // Do something with the found objects
                 if let objects = objects {
                     for object in objects {
                         if object.valueForKey("Day") as! String != "\(localDate.year).\(localDate.month).\(localDate.day)" {
-                            print("day didn't match currentLocalDate")
                         } else {
                             let minutesWorkedTotal = object.valueForKey("Time")! as! Double
                             let hoursWorkedTotal = minutesWorkedTotal / 60.0

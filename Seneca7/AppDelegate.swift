@@ -64,10 +64,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
         if region is CLCircularRegion {
+            
+            print("'didEnterRegion' fired")
+            
             let date = NSDate()
             handleRegionEvent(region, type: "You have entered")
             saveTime(date)
-            print("Saved time \(userDefaults.valueForKey("dateTime")!) upon entering")
             
             // MARK: Parse logging
             let workEvent = PFObject(className: "WorkEvent")
@@ -81,6 +83,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
         if region is CLCircularRegion {
+            
+            print("'didExitRegion' fired")
             
             let date = NSDate()
             let userRegion = Region(calType: CalendarType.Gregorian, loc: NSLocale.currentLocale())

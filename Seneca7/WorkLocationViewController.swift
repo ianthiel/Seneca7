@@ -33,8 +33,35 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
         }
         loadAllWorkLocations()
         mainMapView.delegate = self
-}
+        
+        updateStatusOfRegions()
+        
+        // add notification observers
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didBecomeActive", name: UIApplicationDidBecomeActiveNotification, object: nil)
+    }
     
+    func didBecomeActive() {
+        updateStatusOfRegions()
+    }
+    
+    func updateStatusOfRegions() {
+        for workLocation in workLocations {
+            let region = regionWithWorkLocation(workLocation)
+            self.locationManager.requestStateForRegion(region)
+        }
+    }
+    
+    func locationManager(manager: CLLocationManager, didDetermineState state: CLRegionState, forRegion region: CLRegion) {
+        if state == CLRegionState.Inside {
+            print("CLRegionState for \(region) was Inside")
+        } else if state == CLRegionState.Outside {
+            print("CLRegionState for \(region) was Outside")
+        } else if state == CLRegionState.Unknown {
+            print("CLRegionState for \(region) was Unknown")
+        } else {
+            print("'didDetermineState' failed")
+        }
+    }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "addWorkLocationSegue" {
@@ -205,6 +232,12 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
                     locationManager.stopMonitoringForRegion(circularRegion)
                 }
             }
+        }
+    }
+    
+    func locationManager(manager: CLLocationManager, didStartMonitoringForRegion region: CLRegion) {
+        delay(1.0) {
+            self.locationManager.requestStateForRegion(region)
         }
     }
     
