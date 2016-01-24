@@ -9,6 +9,7 @@
 import UIKit
 import CoreLocation
 import MapKit
+import Parse
 
 let kSavedItemsKey = "savedItems"
 
@@ -40,6 +41,7 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didBecomeActive", name: UIApplicationDidBecomeActiveNotification, object: nil)
     }
     
+    // Notification observer methods
     func didBecomeActive() {
         updateStatusOfRegions()
     }
@@ -54,8 +56,22 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
     func locationManager(manager: CLLocationManager, didDetermineState state: CLRegionState, forRegion region: CLRegion) {
         if state == CLRegionState.Inside {
             print("CLRegionState for \(region) was Inside")
+            let userID = UIDevice.currentDevice().identifierForVendor!.UUIDString
+            let workEvent = PFObject(className: "WorkEvent")
+            workEvent["EventDateTime"] = NSDate()
+            workEvent["UserID"] = userID
+            workEvent["EventType"] = "Inside"
+            workEvent.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in print("WorkEvent 'Inside' object has been saved.")
+            }
         } else if state == CLRegionState.Outside {
             print("CLRegionState for \(region) was Outside")
+            let userID = UIDevice.currentDevice().identifierForVendor!.UUIDString
+            let workEvent = PFObject(className: "WorkEvent")
+            workEvent["EventDateTime"] = NSDate()
+            workEvent["UserID"] = userID
+            workEvent["EventType"] = "Outside"
+            workEvent.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in print("WorkEvent 'Outside' object has been saved.")
+            }
         } else if state == CLRegionState.Unknown {
             print("CLRegionState for \(region) was Unknown")
         } else {
