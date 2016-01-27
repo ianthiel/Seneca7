@@ -44,6 +44,7 @@ class AddWorkLocationViewController: UIViewController, CLLocationManagerDelegate
     }
     
     let locationManager = CLLocationManager()
+    var workLocations = [WorkLocation]()
     
     var delegate: AddWorkLocationsViewControllerDelegate!
     
@@ -58,6 +59,4 @@ class AddWorkLocationViewController: UIViewController, CLLocationManagerDelegate
             zoomToUserLocationInMapView(self.addMapView)
         }
     }
-
-    
 }

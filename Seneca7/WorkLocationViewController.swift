@@ -10,6 +10,7 @@ import UIKit
 import CoreLocation
 import MapKit
 import Parse
+import SwiftDate
 
 let kSavedItemsKey = "savedItems"
 
@@ -53,24 +54,110 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
         }
     }
     
+    let localDate = NSDate().inRegion(Region(calType: CalendarType.Gregorian, loc: NSLocale.currentLocale())).localDate!
+    let userID = UIDevice.currentDevice().identifierForVendor!.UUIDString
+    var status = NSUserDefaults.standardUserDefaults().valueForKey("Status") as! String
+    
+    func updateTime() -> Double {
+        let savedTime = userDefaults.valueForKey("dateTime")
+        let secondsPassed = NSDate().timeIntervalSinceDate(savedTime as! NSDate)
+        let minutesPassed = secondsPassed / 60
+        if userDefaults.valueForKey("minutes") != nil {
+            let previous = userDefaults.valueForKey("minutes") as! Double
+            let new = previous + minutesPassed
+            userDefaults.setValue(new, forKey: "minutes")
+            userDefaults.synchronize()
+        } else {
+            userDefaults.setValue(minutesPassed, forKey: "minutes")
+            userDefaults.synchronize()
+        }
+        return minutesPassed
+    }
+    
+    func logParseWorkEvent(EventType: String) {
+        let workEvent = PFObject(className: "WorkEvent")
+        print("CLRegionState for region was \(EventType)")
+        workEvent["EventDateTime"] = NSDate()
+        workEvent["UserID"] = userID
+        workEvent["EventType"] = EventType
+        workEvent.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in print("WorkEvent \(EventType) object has been saved.")
+        }
+    }
+    
+    func updateParseDay(minutesPassed: Double) {
+        
+        let days = PFObject(className: "Days")
+        let daysQuery = PFQuery(className:"Days")
+        daysQuery.whereKey("UserID", equalTo:userID)
+        daysQuery.orderByDescending("createdAt")
+        daysQuery.getFirstObjectInBackgroundWithBlock {
+            (object: PFObject?, error: NSError?) -> Void in
+            
+            if error != nil {
+                print("Error: \(error)")
+            } else if object == nil {
+                days["UserID"] = self.userID
+                days["Day"] = "\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)"
+                days["Time"] = minutesPassed
+                days.saveInBackground()
+                print("ParseDay updated")
+            } else if object!.valueForKey("Day") as! String == "\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)" {
+                let newTime = object!.valueForKey("Time") as! Double + minutesPassed
+                object!.setValue(newTime, forKey: "Time")
+                object!.saveInBackground()
+                print("ParseDay Updated")
+            } else {
+                days["UserID"] = self.userID
+                days["Day"] = "\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)"
+                days["Time"] = minutesPassed
+                days.saveInBackground()
+                print("ParseDay Updated")
+            }
+        }
+    }
+    
+    // MARK: didDetermineState handling
+    
     func locationManager(manager: CLLocationManager, didDetermineState state: CLRegionState, forRegion region: CLRegion) {
         if state == CLRegionState.Inside {
-            print("CLRegionState for \(region) was Inside")
-            let userID = UIDevice.currentDevice().identifierForVendor!.UUIDString
-            let workEvent = PFObject(className: "WorkEvent")
-            workEvent["EventDateTime"] = NSDate()
-            workEvent["UserID"] = userID
-            workEvent["EventType"] = "Inside"
-            workEvent.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in print("WorkEvent 'Inside' object has been saved.")
+            logParseWorkEvent("Inside")
+            if status == "Inside" {
+                print("Status = Inside, State = Inside")
+                if userDefaults.valueForKey("dateTime") != nil {
+                    let savedTime = userDefaults.valueForKey("dateTime")
+                    let secondsPassed = NSDate().timeIntervalSinceDate(savedTime as! NSDate)
+                    let minutesPassed = secondsPassed / 60.0
+                    let previous = userDefaults.valueForKey("minutes") as! Double
+                    let new = previous + minutesPassed
+                    userDefaults.setValue(new, forKey: "minutes")
+                    userDefaults.setValue(NSDate(), forKey: "dateTime")
+                    userDefaults.synchronize()
+                    updateParseDay(minutesPassed)
+                } else {
+                    userDefaults.setValue(NSDate(), forKey: "dateTime")
+                    userDefaults.synchronize()
+                }
+            } else if status == "Outside" {
+                print("Status = Outside, State = Inside")
+                userDefaults.setValue(NSDate(), forKey: "dateTime")
+                userDefaults.setValue("Inside", forKey: "Status")
+                userDefaults.synchronize()
+            } else {
+                print("Entered 'else' branch of inside state")
+                userDefaults.setValue(NSDate(), forKey: "dateTime")
+                userDefaults.setValue("Inside", forKey: "Status")
+                userDefaults.synchronize()
             }
         } else if state == CLRegionState.Outside {
-            print("CLRegionState for \(region) was Outside")
-            let userID = UIDevice.currentDevice().identifierForVendor!.UUIDString
-            let workEvent = PFObject(className: "WorkEvent")
-            workEvent["EventDateTime"] = NSDate()
-            workEvent["UserID"] = userID
-            workEvent["EventType"] = "Outside"
-            workEvent.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in print("WorkEvent 'Outside' object has been saved.")
+            logParseWorkEvent("Outside")
+            if status == "Inside" {
+                // find difference between saved time and current time
+                // add difference to day/week/month/year
+                // set status = outside
+            } else if status == "Outside" {
+                // do nothing
+            } else {
+                print("Unknown 'Status' for 'Outside' event")
             }
         } else if state == CLRegionState.Unknown {
             print("CLRegionState for \(region) was Unknown")
@@ -104,14 +191,14 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
             let item = NSKeyedArchiver.archivedDataWithRootObject(workLocation)
             items.addObject(item)
         }
-        NSUserDefaults.standardUserDefaults().setObject(items, forKey: kSavedItemsKey)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        userDefaults.setObject(items, forKey: kSavedItemsKey)
+        userDefaults.synchronize()
     }
     
     func loadAllWorkLocations() {
         workLocations = []
         
-        if let savedItems = NSUserDefaults.standardUserDefaults().arrayForKey(kSavedItemsKey) {
+        if let savedItems = userDefaults.arrayForKey(kSavedItemsKey) {
             for savedItem in savedItems {
                 if let workLocation = NSKeyedUnarchiver.unarchiveObjectWithData(savedItem as! NSData) as? WorkLocation {
                     addWorkLocation(workLocation)

@@ -1,0 +1,16 @@
+PODS:
+  - Bolts/Tasks (1.6.0)
+  - Parse (1.12.0):
+    - Bolts/Tasks (~> 1.5)
+  - SwiftDate (2.0.2)
+
+DEPENDENCIES:
+  - Parse
+  - SwiftDate (~> 2.0)
+
+SPEC CHECKSUMS:
+  Bolts: f52a250053bb517ca874523c3913776359ab3def
+  Parse: de2c52a9a1421b91ae7594ab8ce191afd184f19b
+  SwiftDate: b4f4d0962afe48365ad2800c9850a6626deb9359
+
+COCOAPODS: 0.39.0
