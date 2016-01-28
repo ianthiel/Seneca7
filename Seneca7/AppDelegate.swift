@@ -20,16 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     let locationManager = CLLocationManager()
     
     var userDefaults = NSUserDefaults.standardUserDefaults()
-    
-    func saveTime(dateTime: NSDate) {
-        userDefaults.setValue(dateTime, forKey: "dateTime")
-        userDefaults.synchronize()
-        if userDefaults.valueForKey("dateTime") == nil {
-            print("No dateTime set")
-        } else {
-            print(userDefaults.valueForKey("dateTime")!)
-        }
-    }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         locationManager.delegate = self
@@ -67,17 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             
             print("'didEnterRegion' fired")
             
-            let date = NSDate()
             handleRegionEvent(region, type: "You have entered")
-            saveTime(date)
-            
-            // MARK: Parse logging
-            let workEvent = PFObject(className: "WorkEvent")
-            workEvent["EventDateTime"] = NSDate()
-            workEvent["UserID"] = UIDevice.currentDevice().identifierForVendor!.UUIDString
-            workEvent["EventType"] = "Enter"
-            workEvent.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in print("WorkEvent enter object has been saved.")
-            }
         }
     }
     
@@ -86,93 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             
             print("'didExitRegion' fired")
             
-            let date = NSDate()
-            let userRegion = Region(calType: CalendarType.Gregorian, loc: NSLocale.currentLocale())
-            let localDate = date.inRegion(userRegion).localDate!
-            
             handleRegionEvent(region, type: "You have exited")
-            let savedTime = userDefaults.valueForKey("dateTime")
-            let secondsPassed = NSDate().timeIntervalSinceDate(savedTime as! NSDate)
-            let minutesPassed = secondsPassed / 60
-            if userDefaults.valueForKey("minutes") != nil {
-                let previous = userDefaults.valueForKey("minutes") as! Double
-                let new = previous + minutesPassed
-                userDefaults.setValue(new, forKey: "minutes")
-                userDefaults.synchronize()
-            } else {
-                userDefaults.setValue(minutesPassed, forKey: "minutes")
-                userDefaults.synchronize()
-            }
-            
-            // MARK: Parse constants
-            
-            let userID = UIDevice.currentDevice().identifierForVendor!.UUIDString
-            
-            // MARK: Parse logging
-            let workEvent = PFObject(className: "WorkEvent")
-            workEvent["EventDateTime"] = NSDate()
-            workEvent["UserID"] = userID
-            workEvent["EventType"] = "Exit"
-            workEvent.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in print("WorkEvent exit object has been saved.")
-            }
-            
-            // MARK: Begin Parse TIME logging
-            
-            // MARK: Begin Parse YEAR logging
-            
-            let years = PFObject(className: "Years")
-            let yearsQuery = PFQuery(className:"Years")
-            yearsQuery.whereKey("UserID", equalTo:userID)
-            yearsQuery.orderByDescending("createdAt")
-            yearsQuery.getFirstObjectInBackgroundWithBlock {
-                (object: PFObject?, error: NSError?) -> Void in
-                
-                if error != nil {
-                    print("Error: \(error)")
-                } else if object == nil {
-                    years["UserID"] = userID
-                    years["Year"] = localDate.year
-                    years["Time"] = minutesPassed
-                    years.saveInBackground()
-                } else if object!.valueForKey("Year") as! Int == localDate.year {
-                    let newTime = object!.valueForKey("Time") as! Double + minutesPassed
-                    object!.setValue(newTime, forKey: "Time")
-                    object!.saveInBackground()
-                } else {
-                    years["UserID"] = userID
-                    years["Day"] = localDate.year
-                    years["Time"] = minutesPassed
-                    years.saveInBackground()
-                }
-            }
-            
-            // MARK: Begin Parse DAY logging
-
-            let days = PFObject(className: "Days")
-            let daysQuery = PFQuery(className:"Days")
-            daysQuery.whereKey("UserID", equalTo:userID)
-            daysQuery.orderByDescending("createdAt")
-            daysQuery.getFirstObjectInBackgroundWithBlock {
-                (object: PFObject?, error: NSError?) -> Void in
-                
-                if error != nil {
-                    print("Error: \(error)")
-                } else if object == nil {
-                    days["UserID"] = userID
-                    days["Day"] = "\(localDate.year).\(localDate.month).\(localDate.day)"
-                    days["Time"] = minutesPassed
-                    days.saveInBackground()
-                } else if object!.valueForKey("Day") as! String == "\(localDate.year).\(localDate.month).\(localDate.day)" {
-                    let newTime = object!.valueForKey("Time") as! Double + minutesPassed
-                    object!.setValue(newTime, forKey: "Time")
-                    object!.saveInBackground()
-                } else {
-                    days["UserID"] = userID
-                    days["Day"] = "\(localDate.year).\(localDate.month).\(localDate.day)"
-                    days["Time"] = minutesPassed
-                    days.saveInBackground()
-                }
-            }
         }
     }
 

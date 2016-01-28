@@ -92,7 +92,7 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
         yearsQuery.orderByDescending("createdAt")
         yearsQuery.getFirstObjectInBackgroundWithBlock {
             (object: PFObject?, error: NSError?) -> Void in
-            
+
             if error != nil {
                 print("Error: \(error)")
             } else if object == nil {
@@ -100,7 +100,7 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
                 years["Year"] = "\(self.localDate.year)"
                 years["Time"] = minutesPassed
                 years.saveInBackground()
-            } else if object!.valueForKey("Year") as! String == "\(self.localDate.year)" {
+            } else if object!.valueForKey("Year") as! Int == self.localDate.year {
                 let newTime = object!.valueForKey("Time") as! Double + minutesPassed
                 object!.setValue(newTime, forKey: "Time")
                 object!.saveInBackground()
@@ -160,6 +160,7 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
                 weeks.saveInBackground()
             } else if object!.valueForKey("Week") as! String == "\(self.localDate.year).\(self.localDate.weekOfYear)" {
                 let newTime = object!.valueForKey("Time") as! Double + minutesPassed
+                print("ParseWeek minutesPassed is \(minutesPassed)")
                 object!.setValue(newTime, forKey: "Time")
                 object!.saveInBackground()
             } else {
@@ -242,12 +243,14 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
             logParseWorkEvent("Outside")
             if status == "Inside" {
                 if userDefaults.valueForKey("dateTime") != nil {
+                    print("Status = Inside, State = Outside")
                     let savedTime = userDefaults.valueForKey("dateTime")
                     let secondsPassed = NSDate().timeIntervalSinceDate(savedTime as! NSDate)
                     let minutesPassed = secondsPassed / 60.0
                     let previous = userDefaults.valueForKey("minutes") as! Double
                     let new = previous + minutesPassed
                     userDefaults.setValue(new, forKey: "minutes")
+                    userDefaults.setValue("Outside", forKey: "Status")
                     userDefaults.synchronize()
                     updateParseYear(minutesPassed)
                     updateParseMonth(minutesPassed)
@@ -257,7 +260,8 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
                     // do nothing
                 }
             } else if status == "Outside" {
-                // do nothing
+                print("Status = Outside, State = Outside")
+
             } else {
                 userDefaults.setValue("Outside", forKey: "Status")
                 userDefaults.synchronize()
@@ -332,7 +336,7 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
     
     func updateWorkLocationsCount() {
         title = "Work Locations: \(workLocations.count)"
-        navigationItem.rightBarButtonItem?.enabled = (workLocations.count < 20)
+        navigationItem.rightBarButtonItem?.enabled = (workLocations.count < 1)
         
     }
     
