@@ -84,6 +84,93 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
         }
     }
     
+    func updateParseYear(minutesPassed: Double) {
+        
+        let years = PFObject(className: "Years")
+        let yearsQuery = PFQuery(className:"Years")
+        yearsQuery.whereKey("UserID", equalTo:userID)
+        yearsQuery.orderByDescending("createdAt")
+        yearsQuery.getFirstObjectInBackgroundWithBlock {
+            (object: PFObject?, error: NSError?) -> Void in
+            
+            if error != nil {
+                print("Error: \(error)")
+            } else if object == nil {
+                years["UserID"] = self.userID
+                years["Year"] = "\(self.localDate.year)"
+                years["Time"] = minutesPassed
+                years.saveInBackground()
+            } else if object!.valueForKey("Year") as! String == "\(self.localDate.year)" {
+                let newTime = object!.valueForKey("Time") as! Double + minutesPassed
+                object!.setValue(newTime, forKey: "Time")
+                object!.saveInBackground()
+            } else {
+                years["UserID"] = self.userID
+                years["Year"] = "\(self.localDate.year)"
+                years["Time"] = minutesPassed
+                years.saveInBackground()
+            }
+        }
+    }
+    
+    func updateParseMonth(minutesPassed: Double) {
+        
+        let months = PFObject(className: "Months")
+        let monthsQuery = PFQuery(className:"Months")
+        monthsQuery.whereKey("UserID", equalTo:userID)
+        monthsQuery.orderByDescending("createdAt")
+        monthsQuery.getFirstObjectInBackgroundWithBlock {
+            (object: PFObject?, error: NSError?) -> Void in
+            
+            if error != nil {
+                print("Error: \(error)")
+            } else if object == nil {
+                months["UserID"] = self.userID
+                months["Month"] = "\(self.localDate.year).\(self.localDate.month)"
+                months["Time"] = minutesPassed
+                months.saveInBackground()
+            } else if object!.valueForKey("Month") as! String == "\(self.localDate.year).\(self.localDate.month)" {
+                let newTime = object!.valueForKey("Time") as! Double + minutesPassed
+                object!.setValue(newTime, forKey: "Time")
+                object!.saveInBackground()
+            } else {
+                months["UserID"] = self.userID
+                months["Month"] = "\(self.localDate.year).\(self.localDate.month)"
+                months["Time"] = minutesPassed
+                months.saveInBackground()
+            }
+        }
+    }
+    
+    func updateParseWeek(minutesPassed: Double) {
+        
+        let weeks = PFObject(className: "Weeks")
+        let weeksQuery = PFQuery(className:"Weeks")
+        weeksQuery.whereKey("UserID", equalTo:userID)
+        weeksQuery.orderByDescending("createdAt")
+        weeksQuery.getFirstObjectInBackgroundWithBlock {
+            (object: PFObject?, error: NSError?) -> Void in
+            
+            if error != nil {
+                print("Error: \(error)")
+            } else if object == nil {
+                weeks["UserID"] = self.userID
+                weeks["Week"] = "\(self.localDate.year).\(self.localDate.weekOfYear)"
+                weeks["Time"] = minutesPassed
+                weeks.saveInBackground()
+            } else if object!.valueForKey("Week") as! String == "\(self.localDate.year).\(self.localDate.weekOfYear)" {
+                let newTime = object!.valueForKey("Time") as! Double + minutesPassed
+                object!.setValue(newTime, forKey: "Time")
+                object!.saveInBackground()
+            } else {
+                weeks["UserID"] = self.userID
+                weeks["Week"] = "\(self.localDate.year).\(self.localDate.weekOfYear)"
+                weeks["Time"] = minutesPassed
+                weeks.saveInBackground()
+            }
+        }
+    }
+    
     func updateParseDay(minutesPassed: Double) {
         
         let days = PFObject(className: "Days")
@@ -132,6 +219,9 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
                     userDefaults.setValue(new, forKey: "minutes")
                     userDefaults.setValue(NSDate(), forKey: "dateTime")
                     userDefaults.synchronize()
+                    updateParseYear(minutesPassed)
+                    updateParseMonth(minutesPassed)
+                    updateParseWeek(minutesPassed)
                     updateParseDay(minutesPassed)
                 } else {
                     userDefaults.setValue(NSDate(), forKey: "dateTime")
@@ -159,6 +249,9 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
                     let new = previous + minutesPassed
                     userDefaults.setValue(new, forKey: "minutes")
                     userDefaults.synchronize()
+                    updateParseYear(minutesPassed)
+                    updateParseMonth(minutesPassed)
+                    updateParseWeek(minutesPassed)
                     updateParseDay(minutesPassed)
                 } else {
                     // do nothing
