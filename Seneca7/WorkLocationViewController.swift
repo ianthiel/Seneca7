@@ -151,13 +151,23 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
         } else if state == CLRegionState.Outside {
             logParseWorkEvent("Outside")
             if status == "Inside" {
-                // find difference between saved time and current time
-                // add difference to day/week/month/year
-                // set status = outside
+                if userDefaults.valueForKey("dateTime") != nil {
+                    let savedTime = userDefaults.valueForKey("dateTime")
+                    let secondsPassed = NSDate().timeIntervalSinceDate(savedTime as! NSDate)
+                    let minutesPassed = secondsPassed / 60.0
+                    let previous = userDefaults.valueForKey("minutes") as! Double
+                    let new = previous + minutesPassed
+                    userDefaults.setValue(new, forKey: "minutes")
+                    userDefaults.synchronize()
+                    updateParseDay(minutesPassed)
+                } else {
+                    // do nothing
+                }
             } else if status == "Outside" {
                 // do nothing
             } else {
-                print("Unknown 'Status' for 'Outside' event")
+                userDefaults.setValue("Outside", forKey: "Status")
+                userDefaults.synchronize()
             }
         } else if state == CLRegionState.Unknown {
             print("CLRegionState for \(region) was Unknown")
