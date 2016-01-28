@@ -17,6 +17,9 @@ class WorkDataViewController: UIViewController {
         dismissViewControllerAnimated(true, completion: nil)
     }
     
+    @IBOutlet weak var hoursWorkedThisYearDisplay: UILabel!
+    @IBOutlet weak var hoursWorkedThisMonthDisplay: UILabel!
+    @IBOutlet weak var hoursWorkedThisWeekDisplay: UILabel!
     @IBOutlet weak var hoursWorkedTodayDisplay: UILabel!
     @IBOutlet weak var hoursWorkedDisplay: UILabel!
     
@@ -28,6 +31,9 @@ class WorkDataViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         convertHoursToHoursMinutesAndPrint()
+        displayHoursWorkedThisYear()
+        displayHoursWorkedThisMonth()
+        displayHoursWorkedThisWeek()
         displayHoursWorkedToday()
     }
     
@@ -64,6 +70,7 @@ class WorkDataViewController: UIViewController {
                 if let objects = objects {
                     for object in objects {
                         if object.valueForKey("Day") as! String != "\(localDate.year).\(localDate.month).\(localDate.day)" {
+                            
                         } else {
                             let minutesWorkedTotal = object.valueForKey("Time")! as! Double
                             let hoursWorkedTotal = minutesWorkedTotal / 60.0
@@ -77,6 +84,131 @@ class WorkDataViewController: UIViewController {
                                 self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hours and \(minutesWorked) minute at work."
                             } else {
                                 self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hours and \(minutesWorked) minutes at work."
+                            }
+                        }
+                    }
+                }
+            } else {
+                // Log details of the failure
+                print("Error: \(error!) \(error!.userInfo)")
+            }
+        }
+    }
+    
+    func displayHoursWorkedThisWeek() {
+        
+        let date = NSDate()
+        let userRegion = Region(calType: CalendarType.Gregorian, loc: NSLocale.currentLocale())
+        let localDate = date.inRegion(userRegion).localDate!
+        
+        let query = PFQuery(className: "Weeks")
+        query.whereKey("UserID", equalTo: userID)
+        query.findObjectsInBackgroundWithBlock {
+            (objects: [PFObject]?, error: NSError?) -> Void in
+            
+            if error == nil {
+                // The find succeeded.
+                // Do something with the found objects
+                if let objects = objects {
+                    for object in objects {
+                        if object.valueForKey("Week") as! String != "\(localDate.year).\(localDate.weekOfYear)" {
+                            
+                        } else {
+                            let minutesWorkedTotal = object.valueForKey("Time")! as! Double
+                            let hoursWorkedTotal = minutesWorkedTotal / 60.0
+                            let hoursWorked = Int(floor(hoursWorkedTotal))
+                            let minutesWorked = Int(floor(minutesWorkedTotal % 60.0))
+                            if hoursWorked == 1 && minutesWorked == 1 {
+                                self.hoursWorkedThisWeekDisplay.text = "This Week: \(hoursWorked) hour and \(minutesWorked) minute at work."
+                            } else if hoursWorked == 1 {
+                                self.hoursWorkedThisWeekDisplay.text = "This Week: \(hoursWorked) hour and \(minutesWorked) minutes at work."
+                            } else if minutesWorked == 1 {
+                                self.hoursWorkedThisWeekDisplay.text = "This Week: \(hoursWorked) hours and \(minutesWorked) minute at work."
+                            } else {
+                                self.hoursWorkedThisWeekDisplay.text = "This Week: \(hoursWorked) hours and \(minutesWorked) minutes at work."
+                            }
+                        }
+                    }
+                }
+            } else {
+                // Log details of the failure
+                print("Error: \(error!) \(error!.userInfo)")
+            }
+        }
+    }
+    
+    func displayHoursWorkedThisMonth() {
+        
+        let date = NSDate()
+        let userRegion = Region(calType: CalendarType.Gregorian, loc: NSLocale.currentLocale())
+        let localDate = date.inRegion(userRegion).localDate!
+        
+        let query = PFQuery(className: "Months")
+        query.whereKey("UserID", equalTo: userID)
+        query.findObjectsInBackgroundWithBlock {
+            (objects: [PFObject]?, error: NSError?) -> Void in
+            
+            if error == nil {
+                // The find succeeded.
+                // Do something with the found objects
+                if let objects = objects {
+                    for object in objects {
+                        if object.valueForKey("Month") as! String != "\(localDate.year).\(localDate.month)" {
+                            
+                        } else {
+                            let minutesWorkedTotal = object.valueForKey("Time")! as! Double
+                            let hoursWorkedTotal = minutesWorkedTotal / 60.0
+                            let hoursWorked = Int(floor(hoursWorkedTotal))
+                            let minutesWorked = Int(floor(minutesWorkedTotal % 60.0))
+                            if hoursWorked == 1 && minutesWorked == 1 {
+                                self.hoursWorkedThisMonthDisplay.text = "This Month: \(hoursWorked) hour and \(minutesWorked) minute at work."
+                            } else if hoursWorked == 1 {
+                                self.hoursWorkedThisMonthDisplay.text = "This Month: \(hoursWorked) hour and \(minutesWorked) minutes at work."
+                            } else if minutesWorked == 1 {
+                                self.hoursWorkedThisMonthDisplay.text = "This Month: \(hoursWorked) hours and \(minutesWorked) minute at work."
+                            } else {
+                                self.hoursWorkedThisMonthDisplay.text = "This Month: \(hoursWorked) hours and \(minutesWorked) minutes at work."
+                            }
+                        }
+                    }
+                }
+            } else {
+                // Log details of the failure
+                print("Error: \(error!) \(error!.userInfo)")
+            }
+        }
+    }
+    
+    func displayHoursWorkedThisYear() {
+        
+        let date = NSDate()
+        let userRegion = Region(calType: CalendarType.Gregorian, loc: NSLocale.currentLocale())
+        let localDate = date.inRegion(userRegion).localDate!
+        
+        let query = PFQuery(className: "Years")
+        query.whereKey("UserID", equalTo: userID)
+        query.findObjectsInBackgroundWithBlock {
+            (objects: [PFObject]?, error: NSError?) -> Void in
+            
+            if error == nil {
+                // The find succeeded.
+                // Do something with the found objects
+                if let objects = objects {
+                    for object in objects {
+                        if object.valueForKey("Year") as! Int != localDate.year {
+                        } else {
+                            let minutesWorkedTotal = object.valueForKey("Time")! as! Double
+                            let hoursWorkedTotal = minutesWorkedTotal / 60.0
+                            let hoursWorked = Int(floor(hoursWorkedTotal))
+                            let minutesWorked = Int(floor(minutesWorkedTotal % 60.0))
+                            if hoursWorked == 1 && minutesWorked == 1 {
+                                self.hoursWorkedThisYearDisplay.text = "This Year: \(hoursWorked) hour and \(minutesWorked) minute at work."
+                            } else if hoursWorked == 1 {
+                                self.hoursWorkedThisYearDisplay.text = "This Year: \(hoursWorked) hour and \(minutesWorked) minutes at work."
+                            } else if minutesWorked == 1 {
+                                self.hoursWorkedThisYearDisplay.text = "This Year: \(hoursWorked) hours and \(minutesWorked) minute at work."
+                            } else {
+                                self.hoursWorkedThisYearDisplay.text = "This Year: \(hoursWorked) hours and \(minutesWorked) minutes at work."
                             }
                         }
                     }

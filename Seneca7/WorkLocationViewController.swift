@@ -95,20 +95,30 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
 
             if error != nil {
                 print("Error: \(error)")
+                if error!.code == 101 {
+                    years["UserID"] = self.userID
+                    years["Year"] = self.localDate.year
+                    years["Time"] = minutesPassed
+                    years.saveInBackground()
+                    print("ParseYear created")
+                }
             } else if object == nil {
                 years["UserID"] = self.userID
                 years["Year"] = "\(self.localDate.year)"
                 years["Time"] = minutesPassed
                 years.saveInBackground()
+                print("ParseYear created")
             } else if object!.valueForKey("Year") as! Int == self.localDate.year {
                 let newTime = object!.valueForKey("Time") as! Double + minutesPassed
                 object!.setValue(newTime, forKey: "Time")
                 object!.saveInBackground()
+                print("ParseYear updated")
             } else {
                 years["UserID"] = self.userID
                 years["Year"] = "\(self.localDate.year)"
                 years["Time"] = minutesPassed
                 years.saveInBackground()
+                print("ParseYear created")
             }
         }
     }
@@ -124,20 +134,30 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
             
             if error != nil {
                 print("Error: \(error)")
+                if error!.code == 101 {
+                    months["UserID"] = self.userID
+                    months["Month"] = "\(self.localDate.year).\(self.localDate.month)"
+                    months["Time"] = minutesPassed
+                    months.saveInBackground()
+                    print("ParseMonth created")
+                }
             } else if object == nil {
                 months["UserID"] = self.userID
                 months["Month"] = "\(self.localDate.year).\(self.localDate.month)"
                 months["Time"] = minutesPassed
                 months.saveInBackground()
+                print("ParseMonth created")
             } else if object!.valueForKey("Month") as! String == "\(self.localDate.year).\(self.localDate.month)" {
                 let newTime = object!.valueForKey("Time") as! Double + minutesPassed
                 object!.setValue(newTime, forKey: "Time")
                 object!.saveInBackground()
+                print("ParseMonth updated")
             } else {
                 months["UserID"] = self.userID
                 months["Month"] = "\(self.localDate.year).\(self.localDate.month)"
                 months["Time"] = minutesPassed
                 months.saveInBackground()
+                print("ParseMonth created")
             }
         }
     }
@@ -153,21 +173,30 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
             
             if error != nil {
                 print("Error: \(error)")
+                if error!.code == 101 {
+                    weeks["UserID"] = self.userID
+                    weeks["Week"] = "\(self.localDate.year).\(self.localDate.weekOfYear)"
+                    weeks["Time"] = minutesPassed
+                    weeks.saveInBackground()
+                    print("ParseWeek created")
+                }
             } else if object == nil {
                 weeks["UserID"] = self.userID
                 weeks["Week"] = "\(self.localDate.year).\(self.localDate.weekOfYear)"
                 weeks["Time"] = minutesPassed
                 weeks.saveInBackground()
+                print("ParseWeek created")
             } else if object!.valueForKey("Week") as! String == "\(self.localDate.year).\(self.localDate.weekOfYear)" {
                 let newTime = object!.valueForKey("Time") as! Double + minutesPassed
-                print("ParseWeek minutesPassed is \(minutesPassed)")
                 object!.setValue(newTime, forKey: "Time")
                 object!.saveInBackground()
+                print("ParseWeek updated")
             } else {
                 weeks["UserID"] = self.userID
                 weeks["Week"] = "\(self.localDate.year).\(self.localDate.weekOfYear)"
                 weeks["Time"] = minutesPassed
                 weeks.saveInBackground()
+                print("ParseWeek created")
             }
         }
     }
@@ -183,23 +212,30 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
             
             if error != nil {
                 print("Error: \(error)")
+                if error!.code == 101 {
+                    days["UserID"] = self.userID
+                    days["Day"] = "\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)"
+                    days["Time"] = minutesPassed
+                    days.saveInBackground()
+                    print("ParseDay created")
+                }
             } else if object == nil {
                 days["UserID"] = self.userID
                 days["Day"] = "\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)"
                 days["Time"] = minutesPassed
                 days.saveInBackground()
-                print("ParseDay updated")
+                print("ParseDay created")
             } else if object!.valueForKey("Day") as! String == "\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)" {
                 let newTime = object!.valueForKey("Time") as! Double + minutesPassed
                 object!.setValue(newTime, forKey: "Time")
                 object!.saveInBackground()
-                print("ParseDay Updated")
+                print("ParseDay updated")
             } else {
                 days["UserID"] = self.userID
                 days["Day"] = "\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)"
                 days["Time"] = minutesPassed
                 days.saveInBackground()
-                print("ParseDay Updated")
+                print("ParseDay created")
             }
         }
     }
