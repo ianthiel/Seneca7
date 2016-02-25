@@ -56,7 +56,6 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
     
     let localDate = NSDate().inRegion(Region(calType: CalendarType.Gregorian, loc: NSLocale.currentLocale())).localDate!
     let userID = UIDevice.currentDevice().identifierForVendor!.UUIDString
-    var status = NSUserDefaults.standardUserDefaults().valueForKey("Status") as! String
     
     func updateTime() -> Double {
         let savedTime = userDefaults.valueForKey("dateTime")
@@ -218,6 +217,8 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
                     days["Time"] = minutesPassed
                     days.saveInBackground()
                     print("ParseDay created")
+                } else {
+                    print("Some error other than 101 was triggered updating ParseDay")
                 }
             } else if object == nil {
                 days["UserID"] = self.userID
@@ -243,6 +244,8 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
     // MARK: didDetermineState handling
     
     func locationManager(manager: CLLocationManager, didDetermineState state: CLRegionState, forRegion region: CLRegion) {
+        let status = NSUserDefaults.standardUserDefaults().valueForKey("Status") as? String
+        
         if state == CLRegionState.Inside {
             logParseWorkEvent("Inside")
             if status == "Inside" {
@@ -251,15 +254,25 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
                     let savedTime = userDefaults.valueForKey("dateTime")
                     let secondsPassed = NSDate().timeIntervalSinceDate(savedTime as! NSDate)
                     let minutesPassed = secondsPassed / 60.0
-                    let previous = userDefaults.valueForKey("minutes") as! Double
-                    let new = previous + minutesPassed
-                    userDefaults.setValue(new, forKey: "minutes")
-                    userDefaults.setValue(NSDate(), forKey: "dateTime")
-                    userDefaults.synchronize()
-                    updateParseYear(minutesPassed)
-                    updateParseMonth(minutesPassed)
-                    updateParseWeek(minutesPassed)
-                    updateParseDay(minutesPassed)
+                    if let previous = userDefaults.valueForKey("minutes") as? Double {
+                        let new = previous + minutesPassed
+                        userDefaults.setValue(new, forKey: "minutes")
+                        userDefaults.setValue(NSDate(), forKey: "dateTime")
+                        userDefaults.synchronize()
+                        updateParseYear(minutesPassed)
+                        updateParseMonth(minutesPassed)
+                        updateParseWeek(minutesPassed)
+                        updateParseDay(minutesPassed)
+                    } else {
+                        let new = minutesPassed
+                        userDefaults.setValue(new, forKey: "minutes")
+                        userDefaults.setValue(NSDate(), forKey: "dateTime")
+                        userDefaults.synchronize()
+                        updateParseYear(minutesPassed)
+                        updateParseMonth(minutesPassed)
+                        updateParseWeek(minutesPassed)
+                        updateParseDay(minutesPassed)
+                    }
                 } else {
                     userDefaults.setValue(NSDate(), forKey: "dateTime")
                     userDefaults.synchronize()

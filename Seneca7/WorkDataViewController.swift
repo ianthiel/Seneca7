@@ -38,18 +38,19 @@ class WorkDataViewController: UIViewController {
     }
     
     func convertHoursToHoursMinutesAndPrint() {
-        let minutesWorkedTotal = userDefaults.valueForKey("minutes") as! Double
-        let hoursWorkedTotal = minutesWorkedTotal / 60.0
-        let hoursWorked = Int(floor(hoursWorkedTotal))
-        let minutesWorked = Int(floor(minutesWorkedTotal % 60.0))
-        if hoursWorked == 1 && minutesWorked == 1 {
-            hoursWorkedDisplay.text = "All time: \(hoursWorked) hour and \(minutesWorked) minute at work."
-        } else if hoursWorked == 1 {
-            hoursWorkedDisplay.text = "All time: \(hoursWorked) hour and \(minutesWorked) minutes at work."
-        } else if minutesWorked == 1 {
-            hoursWorkedDisplay.text = "All time: \(hoursWorked) hours and \(minutesWorked) minute at work."
-        } else {
-            hoursWorkedDisplay.text = "All time: \(hoursWorked) hours and \(minutesWorked) minutes at work."
+        if let minutesWorkedTotal = userDefaults.valueForKey("minutes") as? Double {
+            let hoursWorkedTotal = minutesWorkedTotal / 60.0
+            let hoursWorked = Int(floor(hoursWorkedTotal))
+            let minutesWorked = Int(floor(minutesWorkedTotal % 60.0))
+            if hoursWorked == 1 && minutesWorked == 1 {
+                hoursWorkedDisplay.text = "All time: \(hoursWorked) hour and \(minutesWorked) minute at work."
+            } else if hoursWorked == 1 {
+                hoursWorkedDisplay.text = "All time: \(hoursWorked) hour and \(minutesWorked) minutes at work."
+            } else if minutesWorked == 1 {
+                hoursWorkedDisplay.text = "All time: \(hoursWorked) hours and \(minutesWorked) minute at work."
+            } else {
+                hoursWorkedDisplay.text = "All time: \(hoursWorked) hours and \(minutesWorked) minutes at work."
+            }
         }
     }
     

@@ -5,6 +5,7 @@ target 'Seneca7' do
     platform :ios, '8.0'
     pod "SwiftDate", "~> 2.0"
     pod "Parse"
+    pod "RealmSwift"
     use_frameworks!
 
 end
