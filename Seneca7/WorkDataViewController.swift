@@ -140,6 +140,8 @@ class WorkDataViewController: UIViewController {
         
         self.view.addSubview(chart.view)
         self.chart = chart
+        
+        print("Finished SetupChart()")
     }
     
     func convertHoursToHoursMinutesAndPrint() {
