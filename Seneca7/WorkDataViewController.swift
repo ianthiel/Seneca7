@@ -100,20 +100,21 @@ class WorkDataViewController: UIViewController {
                     for object in objects {
                         if object.valueForKey("Day") as! String == "\(localDate.year).\(localDate.month).\(localDate.day)" {
                             tZeroWorked = (object.valueForKey("Time")! as! Double) / 60.0
-                            print("tZeroWorked set")
+                            print("tZeroWorked set as \(tZeroWorked)")
                         } else if object.valueForKey("Day") as! String == "\(localDate.year).\(localDate.month).\(localDate.day - 1)" {
                             tMinusOneWorked = (object.valueForKey("Time")! as! Double) / 60.0
-                            print("tMinuesOneWorked set as \(tMinusOneWorked)")
+                            print("tMinusOneWorked set as \(tMinusOneWorked)")
+                        } else {
+                            print("Error: tZero and tMinusOneWorked not found or set")
                         }
                     }
                 }
             } else if error!.code == 101 {
-                self.hoursWorkedTodayDisplay.text = "Today: 0 hours and 0 minutes at work."
+                // Error code 101 = ObjectNotFound
+                print("Error: 101 ObjectNotFound in PFQuery to update graph")
             } else {
                 // Log details of the failure
-                print("Error: \(error!) \(error!.userInfo)")
-                // Display zero. Might be better to show the user an error message here.
-                self.hoursWorkedTodayDisplay.text = "Today: 0 hours and 0 minutes at work."
+                print("Error: \(error!) \(error!.userInfo) in PFQuery to update graph")
             }
         }
         
