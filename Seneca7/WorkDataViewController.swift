@@ -26,7 +26,7 @@ class WorkDataViewController: UIViewController {
     
     let locationManager = CLLocationManager()
     
-    var userDefaults = NSUserDefaults.standardUserDefaults()
+    let userDefaults = NSUserDefaults.standardUserDefaults()
     let userID = UIDevice.currentDevice().identifierForVendor!.UUIDString
     
     private var chart: Chart?
@@ -92,31 +92,44 @@ class WorkDataViewController: UIViewController {
         query.orderByDescending("createdAt")
         query.findObjectsInBackgroundWithBlock {
             (objects: [PFObject]?, error: NSError?) -> Void in
-            
-            if error == nil {
+                        
+            if error != nil {
+                // Log details of the failure
+                if error!.code == 101 {
+                    // Error code 101 = ObjectNotFound
+                    print("Error: 101 ObjectNotFound in PFQuery to update graph")
+                } else {
+                    print("Error: \(error!) \(error!.userInfo) in PFQuery to update graph")
+                }
+            } else {
                 // The find succeeded.
                 // Do something with the found objects
                 if let objects = objects {
                     for object in objects {
+                        print("object is \(object)")
                         if object.valueForKey("Day") as! String == "\(localDate.year).\(localDate.month).\(localDate.day)" {
                             tZeroWorked = (object.valueForKey("Time")! as! Double) / 60.0
-                            print("tZeroWorked set as \(tZeroWorked)")
+                            print("tZeroWorked is \(tZeroWorked)")
+                            NSUserDefaults.standardUserDefaults().setValue(tZeroWorked, forKey: "tZeroWorked")
+                            NSUserDefaults.standardUserDefaults().synchronize()
                         } else if object.valueForKey("Day") as! String == "\(localDate.year).\(localDate.month).\(localDate.day - 1)" {
                             tMinusOneWorked = (object.valueForKey("Time")! as! Double) / 60.0
-                            print("tMinusOneWorked set as \(tMinusOneWorked)")
+                            print("tMinusOneWorked is \(tMinusOneWorked)")
+                            NSUserDefaults.standardUserDefaults().setValue(tMinusOneWorked, forKey: "tMinusOneWorked")
+                            NSUserDefaults.standardUserDefaults().synchronize()
                         } else {
                             print("Error: tZero and tMinusOneWorked not found or set")
                         }
                     }
+                } else {
+                    print("Entered 'else' of graph query")
                 }
-            } else if error!.code == 101 {
-                // Error code 101 = ObjectNotFound
-                print("Error: 101 ObjectNotFound in PFQuery to update graph")
-            } else {
-                // Log details of the failure
-                print("Error: \(error!) \(error!.userInfo) in PFQuery to update graph")
             }
         }
+        
+        print(NSUserDefaults.standardUserDefaults().valueForKey("tMinusOneWorked"))
+        print(NSUserDefaults.standardUserDefaults().valueForKey("tZeroWorked"))
+
         
         let chart = BarsChart(
             frame: CGRectMake(10, 70, 350, 350),
@@ -129,14 +142,14 @@ class WorkDataViewController: UIViewController {
                 ("t-4", 9),
                 ("t-3", 5.4),
                 ("t-2", 6.8),
-                ("t-1", tMinusOneWorked),
-                ("t0", tZeroWorked)
+                ("t-1", 0),
+                ("t0", 0)
             ],
             color: UIColor.redColor(),
             barWidth: 20
         )
         
-        print(tMinusOneWorked)
+        print("tMinusOneWorked is \(self.userDefaults.valueForKey("tMinusOneWorked"))")
         
         self.view.addSubview(chart.view)
         self.chart = chart

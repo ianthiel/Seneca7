@@ -215,19 +215,23 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
                     days["UserID"] = self.userID
                     days["Day"] = "\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)"
                     days["Time"] = minutesPassed
+                    print("ParseDay minutesPassed is \(minutesPassed)")
                     days.saveInBackground()
                     print("ParseDay created")
                 } else {
                     print("Some error other than 101 was triggered updating ParseDay")
                 }
             } else if object == nil {
+                print("ParseDay object == nil")
                 days["UserID"] = self.userID
                 days["Day"] = "\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)"
                 days["Time"] = minutesPassed
+                print("ParseDay minutesPassed is \(minutesPassed)")
                 days.saveInBackground()
                 print("ParseDay created")
             } else if object!.valueForKey("Day") as! String == "\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)" {
                 let newTime = object!.valueForKey("Time") as! Double + minutesPassed
+                print("ParseDay minutesPassed is \(minutesPassed) and newTime is \(newTime)")
                 object!.setValue(newTime, forKey: "Time")
                 object!.saveInBackground()
                 print("ParseDay updated")
@@ -235,6 +239,7 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
                 days["UserID"] = self.userID
                 days["Day"] = "\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)"
                 days["Time"] = minutesPassed
+                print("ParseDay minutesPassed is \(minutesPassed)")
                 days.saveInBackground()
                 print("ParseDay created")
             }
@@ -244,18 +249,22 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
     // MARK: didDetermineState handling
     
     func locationManager(manager: CLLocationManager, didDetermineState state: CLRegionState, forRegion region: CLRegion) {
-        let status = NSUserDefaults.standardUserDefaults().valueForKey("Status") as? String
+        let previousState = NSUserDefaults.standardUserDefaults().valueForKey("Status") as? String
+        print("previousState is \(previousState)")
         
         if state == CLRegionState.Inside {
             logParseWorkEvent("Inside")
-            if status == "Inside" {
-                print("Status = Inside, State = Inside")
+            if previousState == "Inside" {
+                print("state = Inside, previousState = Inside")
                 if userDefaults.valueForKey("dateTime") != nil {
                     let savedTime = userDefaults.valueForKey("dateTime")
+                    print("savedTime is \(savedTime)")
                     let secondsPassed = NSDate().timeIntervalSinceDate(savedTime as! NSDate)
+                    print("secondsPassed is \(secondsPassed)")
                     let minutesPassed = secondsPassed / 60.0
                     if let previous = userDefaults.valueForKey("minutes") as? Double {
                         let new = previous + minutesPassed
+                        print("previous is \(previous) and new is \(new)")
                         userDefaults.setValue(new, forKey: "minutes")
                         userDefaults.setValue(NSDate(), forKey: "dateTime")
                         userDefaults.synchronize()
@@ -277,8 +286,8 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
                     userDefaults.setValue(NSDate(), forKey: "dateTime")
                     userDefaults.synchronize()
                 }
-            } else if status == "Outside" {
-                print("Status = Outside, State = Inside")
+            } else if previousState == "Outside" {
+                print("state = Inside, previousState = Outside")
                 userDefaults.setValue(NSDate(), forKey: "dateTime")
                 userDefaults.setValue("Inside", forKey: "Status")
                 userDefaults.synchronize()
@@ -290,9 +299,9 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
             }
         } else if state == CLRegionState.Outside {
             logParseWorkEvent("Outside")
-            if status == "Inside" {
+            if previousState == "Inside" {
                 if userDefaults.valueForKey("dateTime") != nil {
-                    print("Status = Inside, State = Outside")
+                    print("state = Outside, previousState = Inside")
                     let savedTime = userDefaults.valueForKey("dateTime")
                     let secondsPassed = NSDate().timeIntervalSinceDate(savedTime as! NSDate)
                     let minutesPassed = secondsPassed / 60.0
@@ -308,8 +317,8 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
                 } else {
                     // do nothing
                 }
-            } else if status == "Outside" {
-                print("Status = Outside, State = Outside")
+            } else if previousState == "Outside" {
+                print("state = Outside, previousState = Outside")
 
             } else {
                 userDefaults.setValue("Outside", forKey: "Status")
