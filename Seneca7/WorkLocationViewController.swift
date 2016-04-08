@@ -197,7 +197,7 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
         
         // Begin Realm code for updating Day
         let realmDay = RealmDay()
-        realmDay.id = Int("\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)")
+        realmDay.id = Int("\(self.localDate.year)\(self.localDate.month)\(self.localDate.day)")
         realmDay.time = minutesPassed
         print(realmDay.id)
         print(realmDay.time)
