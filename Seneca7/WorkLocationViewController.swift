@@ -73,16 +73,6 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
         return minutesPassed
     }
     
-    func logParseWorkEvent(EventType: String) {
-        let workEvent = PFObject(className: "WorkEvent")
-        print("CLRegionState for region was \(EventType)")
-        workEvent["EventDateTime"] = NSDate()
-        workEvent["UserID"] = userID
-        workEvent["EventType"] = EventType
-        workEvent.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in print("WorkEvent \(EventType) object has been saved.")
-        }
-    }
-    
     func updateParseYear(minutesPassed: Double) {
         
         let years = PFObject(className: "Years")

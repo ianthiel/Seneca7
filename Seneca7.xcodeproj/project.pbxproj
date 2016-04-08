@@ -14,6 +14,7 @@
 		241D5C851C0E4C4600DF0F41 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 241D5C831C0E4C4600DF0F41 /* LaunchScreen.storyboard */; };
 		241D5C901C0E4C4600DF0F41 /* Seneca7Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241D5C8F1C0E4C4600DF0F41 /* Seneca7Tests.swift */; };
 		241D5C9B1C0E4C4600DF0F41 /* Seneca7UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241D5C9A1C0E4C4600DF0F41 /* Seneca7UITests.swift */; };
+		24E243071CB74F650099B790 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E243061CB74F650099B790 /* Day.swift */; };
 		3C5AA8F31C0FA44A001FF292 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5AA8F21C0FA44A001FF292 /* Utilities.swift */; };
 		3C827F241C0F9D11008B3B98 /* AddWorkLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C827F231C0F9D11008B3B98 /* AddWorkLocationViewController.swift */; };
 		3CAFC7F11C2E1F5C0048926F /* WorkLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CAFC7F01C2E1F5C0048926F /* WorkLocationViewController.swift */; };
@@ -55,6 +56,7 @@
 		241D5C961C0E4C4600DF0F41 /* Seneca7UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Seneca7UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		241D5C9A1C0E4C4600DF0F41 /* Seneca7UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Seneca7UITests.swift; sourceTree = "<group>"; };
 		241D5C9C1C0E4C4600DF0F41 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		24E243061CB74F650099B790 /* Day.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
 		35757FE333C75B72E5F81704 /* Pods_Seneca7.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Seneca7.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C5AA8F21C0FA44A001FF292 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		3C827F231C0F9D11008B3B98 /* AddWorkLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddWorkLocationViewController.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				241D5C7A1C0E4C4600DF0F41 /* AppDelegate.swift */,
 				241D5C7C1C0E4C4600DF0F41 /* ViewController.swift */,
 				3CAFC7F01C2E1F5C0048926F /* WorkLocationViewController.swift */,
+				24E243061CB74F650099B790 /* Day.swift */,
 				3C827F231C0F9D11008B3B98 /* AddWorkLocationViewController.swift */,
 				3CAFC7F21C2E41DC0048926F /* WorkDataViewController.swift */,
 				3CD5B8921C14B9BE001FAA29 /* WorkLocation.swift */,
@@ -360,6 +363,7 @@
 			files = (
 				241D5C7D1C0E4C4600DF0F41 /* ViewController.swift in Sources */,
 				241D5C7B1C0E4C4600DF0F41 /* AppDelegate.swift in Sources */,
+				24E243071CB74F650099B790 /* Day.swift in Sources */,
 				3CAFC7F11C2E1F5C0048926F /* WorkLocationViewController.swift in Sources */,
 				3CAFC7F31C2E41DC0048926F /* WorkDataViewController.swift in Sources */,
 				3C5AA8F31C0FA44A001FF292 /* Utilities.swift in Sources */,
