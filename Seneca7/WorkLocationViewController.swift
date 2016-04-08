@@ -11,8 +11,10 @@ import CoreLocation
 import MapKit
 import Parse
 import SwiftDate
+import RealmSwift
 
 let kSavedItemsKey = "savedItems"
+let realm = try! Realm()
 
 class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, AddWorkLocationsViewControllerDelegate {
     
@@ -74,6 +76,7 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
     }
     
     func updateParseYear(minutesPassed: Double) {
+        // Begin Parse code for updating Year
         
         let years = PFObject(className: "Years")
         let yearsQuery = PFQuery(className:"Years")
@@ -191,6 +194,18 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
     }
     
     func updateParseDay(minutesPassed: Double) {
+        
+        // Begin Realm code for updating Day
+        let realmDay = RealmDay()
+        realmDay.id = Int("\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)")
+        realmDay.time = minutesPassed
+        print(realmDay.id)
+        print(realmDay.time)
+        try! realm.write {
+            realm.add(realmDay, update: true)
+        }
+        
+        // Begin Parse code for updating Day
         
         let days = PFObject(className: "Days")
         let daysQuery = PFQuery(className:"Days")
