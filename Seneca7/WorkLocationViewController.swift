@@ -220,33 +220,24 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
                     days["UserID"] = self.userID
                     days["Day"] = "\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)"
                     days["Time"] = minutesPassed
-                    print("ParseDay minutesPassed is \(minutesPassed)")
                     days.saveInBackground()
-                    print("ParseDay created")
                 } else {
                     print("Some error other than 101 was triggered updating ParseDay")
                 }
             } else if object == nil {
-                print("ParseDay object == nil")
                 days["UserID"] = self.userID
                 days["Day"] = "\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)"
                 days["Time"] = minutesPassed
-                print("ParseDay minutesPassed is \(minutesPassed)")
                 days.saveInBackground()
-                print("ParseDay created")
             } else if object!.valueForKey("Day") as! String == "\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)" {
                 let newTime = object!.valueForKey("Time") as! Double + minutesPassed
-                print("ParseDay minutesPassed is \(minutesPassed) and newTime is \(newTime)")
                 object!.setValue(newTime, forKey: "Time")
                 object!.saveInBackground()
-                print("ParseDay updated")
             } else {
                 days["UserID"] = self.userID
                 days["Day"] = "\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)"
                 days["Time"] = minutesPassed
-                print("ParseDay minutesPassed is \(minutesPassed)")
                 days.saveInBackground()
-                print("ParseDay created")
             }
         }
     }
