@@ -198,7 +198,7 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
     func updateParseDay(minutesPassed: Double) {
         
         let realmDay = RealmDay()
-        realmDay.id = Int("\(self.localDate.year)\(self.localDate.month)\(self.localDate.day)")
+        realmDay.id = Int("\(self.localDate.year)\(self.localDate.month)\(self.localDate.day)")!
         realmDay.time = minutesPassed
         print(realmDay.id)
         print(realmDay.time)
@@ -214,7 +214,6 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
         print("previousState is \(previousState)")
         
         if state == CLRegionState.Inside {
-            logParseWorkEvent("Inside")
             if previousState == "Inside" {
                 print("state = Inside, previousState = Inside")
                 if userDefaults.valueForKey("dateTime") != nil {
@@ -259,7 +258,6 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
                 userDefaults.synchronize()
             }
         } else if state == CLRegionState.Outside {
-            logParseWorkEvent("Outside")
             if previousState == "Inside" {
                 if userDefaults.valueForKey("dateTime") != nil {
                     print("state = Outside, previousState = Inside")

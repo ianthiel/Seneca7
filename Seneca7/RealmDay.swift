@@ -11,7 +11,7 @@ import RealmSwift
 
 class RealmDay: Object {
     dynamic var id = 0
-    dynamic var time = 0
+    dynamic var time = 0.0
     
     override static func primaryKey() -> String? {
         return "id"
