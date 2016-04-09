@@ -78,119 +78,79 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
     }
     
     func updateParseYear(minutesPassed: Double) {
-        // Begin Parse code for updating Year
         
-        let years = PFObject(className: "Years")
-        let yearsQuery = PFQuery(className:"Years")
-        yearsQuery.whereKey("UserID", equalTo:userID)
-        yearsQuery.orderByDescending("createdAt")
-        yearsQuery.getFirstObjectInBackgroundWithBlock {
-            (object: PFObject?, error: NSError?) -> Void in
-
-            if error != nil {
-                print("Error: \(error)")
-                if error!.code == 101 {
-                    years["UserID"] = self.userID
-                    years["Year"] = self.localDate.year
-                    years["Time"] = minutesPassed
-                    years.saveInBackground()
-                    print("ParseYear created")
-                }
-            } else if object == nil {
-                years["UserID"] = self.userID
-                years["Year"] = "\(self.localDate.year)"
-                years["Time"] = minutesPassed
-                years.saveInBackground()
-                print("ParseYear created")
-            } else if object!.valueForKey("Year") as! Int == self.localDate.year {
-                let newTime = object!.valueForKey("Time") as! Double + minutesPassed
-                object!.setValue(newTime, forKey: "Time")
-                object!.saveInBackground()
-                print("ParseYear updated")
-            } else {
-                years["UserID"] = self.userID
-                years["Year"] = "\(self.localDate.year)"
-                years["Time"] = minutesPassed
-                years.saveInBackground()
-                print("ParseYear created")
+        let realmYear = RealmYear()
+        
+        // check if we've already captured time worked for the current week
+        // if so, update time
+        if realm.objects(RealmYear).filter("id = '\(self.localDate.year)'").first != nil {
+            realmYear.id = "\(self.localDate.year)"
+            let oldTime = realm.objects(RealmYear).filter("id = '\(self.localDate.year)'").first?.time
+            let newTime = oldTime! + minutesPassed
+            realmYear.time = newTime
+            try! realm.write {
+                realm.add(realmYear, update: true)
+                print("realmYear updated with \(minutesPassed) minutes added")
+            }
+            // if this is a new week, create the week and add time
+        } else {
+            realmYear.id = "\(self.localDate.year)"
+            realmYear.time = minutesPassed
+            try! realm.write {
+                realm.add(realmYear, update: true)
+                print("realmYear created with \(minutesPassed) minutes")
             }
         }
     }
     
     func updateParseMonth(minutesPassed: Double) {
         
-        let months = PFObject(className: "Months")
-        let monthsQuery = PFQuery(className:"Months")
-        monthsQuery.whereKey("UserID", equalTo:userID)
-        monthsQuery.orderByDescending("createdAt")
-        monthsQuery.getFirstObjectInBackgroundWithBlock {
-            (object: PFObject?, error: NSError?) -> Void in
-            
-            if error != nil {
-                print("Error: \(error)")
-                if error!.code == 101 {
-                    months["UserID"] = self.userID
-                    months["Month"] = "\(self.localDate.year).\(self.localDate.month)"
-                    months["Time"] = minutesPassed
-                    months.saveInBackground()
-                    print("ParseMonth created")
-                }
-            } else if object == nil {
-                months["UserID"] = self.userID
-                months["Month"] = "\(self.localDate.year).\(self.localDate.month)"
-                months["Time"] = minutesPassed
-                months.saveInBackground()
-                print("ParseMonth created")
-            } else if object!.valueForKey("Month") as! String == "\(self.localDate.year).\(self.localDate.month)" {
-                let newTime = object!.valueForKey("Time") as! Double + minutesPassed
-                object!.setValue(newTime, forKey: "Time")
-                object!.saveInBackground()
-                print("ParseMonth updated")
-            } else {
-                months["UserID"] = self.userID
-                months["Month"] = "\(self.localDate.year).\(self.localDate.month)"
-                months["Time"] = minutesPassed
-                months.saveInBackground()
-                print("ParseMonth created")
+        let realmMonth = RealmMonth()
+        
+        // check if we've already captured time worked for the current week
+        // if so, update time
+        if realm.objects(RealmMonth).filter("id = '\(self.localDate.year).\(self.localDate.month)'").first != nil {
+            realmMonth.id = "\(self.localDate.year).\(self.localDate.month)"
+            let oldTime = realm.objects(RealmMonth).filter("id = '\(self.localDate.year).\(self.localDate.month)'").first?.time
+            let newTime = oldTime! + minutesPassed
+            realmMonth.time = newTime
+            try! realm.write {
+                realm.add(realmMonth, update: true)
+                print("realmMonth updated with \(minutesPassed) minutes added")
+            }
+            // if this is a new week, create the week and add time
+        } else {
+            realmMonth.id = "\(self.localDate.year).\(self.localDate.month)"
+            realmMonth.time = minutesPassed
+            try! realm.write {
+                realm.add(realmMonth, update: true)
+                print("realmMonth created with \(minutesPassed) minutes")
             }
         }
     }
     
     func updateParseWeek(minutesPassed: Double) {
         
-        let weeks = PFObject(className: "Weeks")
-        let weeksQuery = PFQuery(className:"Weeks")
-        weeksQuery.whereKey("UserID", equalTo:userID)
-        weeksQuery.orderByDescending("createdAt")
-        weeksQuery.getFirstObjectInBackgroundWithBlock {
-            (object: PFObject?, error: NSError?) -> Void in
-            
-            if error != nil {
-                print("Error: \(error)")
-                if error!.code == 101 {
-                    weeks["UserID"] = self.userID
-                    weeks["Week"] = "\(self.localDate.year).\(self.localDate.weekOfYear)"
-                    weeks["Time"] = minutesPassed
-                    weeks.saveInBackground()
-                    print("ParseWeek created")
-                }
-            } else if object == nil {
-                weeks["UserID"] = self.userID
-                weeks["Week"] = "\(self.localDate.year).\(self.localDate.weekOfYear)"
-                weeks["Time"] = minutesPassed
-                weeks.saveInBackground()
-                print("ParseWeek created")
-            } else if object!.valueForKey("Week") as! String == "\(self.localDate.year).\(self.localDate.weekOfYear)" {
-                let newTime = object!.valueForKey("Time") as! Double + minutesPassed
-                object!.setValue(newTime, forKey: "Time")
-                object!.saveInBackground()
-                print("ParseWeek updated")
-            } else {
-                weeks["UserID"] = self.userID
-                weeks["Week"] = "\(self.localDate.year).\(self.localDate.weekOfYear)"
-                weeks["Time"] = minutesPassed
-                weeks.saveInBackground()
-                print("ParseWeek created")
+        let realmWeek = RealmWeek()
+        
+        // check if we've already captured time worked for the current week
+        // if so, update time
+        if realm.objects(RealmWeek).filter("id = '\(self.localDate.year).\(self.localDate.weekOfYear)'").first != nil {
+            realmWeek.id = "\(self.localDate.year).\(self.localDate.weekOfYear)"
+            let oldTime = realm.objects(RealmWeek).filter("id = '\(self.localDate.year).\(self.localDate.weekOfYear)'").first?.time
+            let newTime = oldTime! + minutesPassed
+            realmWeek.time = newTime
+            try! realm.write {
+                realm.add(realmWeek, update: true)
+                print("realmWeek updated with \(minutesPassed) minutes added")
+            }
+            // if this is a new week, create the week and add time
+        } else {
+            realmWeek.id = "\(self.localDate.year).\(self.localDate.weekOfYear)"
+            realmWeek.time = minutesPassed
+            try! realm.write {
+                realm.add(realmWeek, update: true)
+                print("realmWeek created with \(minutesPassed) minutes")
             }
         }
     }

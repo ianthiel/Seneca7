@@ -160,7 +160,7 @@ class WorkDataViewController: UIViewController {
         let userRegion = Region(calType: CalendarType.Gregorian, loc: NSLocale.currentLocale())
         let localDate = date.inRegion(userRegion).localDate!
         if realm.objects(RealmDay).filter("id = '\(localDate.year).\(localDate.month).\(localDate.day-dayIndex)'").first != nil {
-            return realm.objects(RealmDay).filter("id = '\(localDate.year).\(localDate.month).\(localDate.day)'").first!.time / 60.0
+            return realm.objects(RealmDay).filter("id = '\(localDate.year).\(localDate.month).\(localDate.day-dayIndex)'").first!.time / 60.0
         } else {
             return 0.0
         }
@@ -206,44 +206,24 @@ class WorkDataViewController: UIViewController {
     }
     
     func displayHoursWorkedThisWeek() {
-        
+        print("Start displayHoursWorkedThisWeek")
         let date = NSDate()
         let userRegion = Region(calType: CalendarType.Gregorian, loc: NSLocale.currentLocale())
         let localDate = date.inRegion(userRegion).localDate!
         
-        let query = PFQuery(className: "Weeks")
-        query.whereKey("UserID", equalTo: userID)
-        query.findObjectsInBackgroundWithBlock {
-            (objects: [PFObject]?, error: NSError?) -> Void in
-            
-            if error == nil {
-                // The find succeeded.
-                // Do something with the found objects
-                if let objects = objects {
-                    for object in objects {
-                        if object.valueForKey("Week") as! String != "\(localDate.year).\(localDate.weekOfYear)" {
-                            
-                        } else {
-                            let minutesWorkedTotal = object.valueForKey("Time")! as! Double
-                            let hoursWorkedTotal = minutesWorkedTotal / 60.0
-                            let hoursWorked = Int(floor(hoursWorkedTotal))
-                            let minutesWorked = Int(floor(minutesWorkedTotal % 60.0))
-                            if hoursWorked == 1 && minutesWorked == 1 {
-                                self.hoursWorkedThisWeekDisplay.text = "This Week: \(hoursWorked) hour and \(minutesWorked) minute at work."
-                            } else if hoursWorked == 1 {
-                                self.hoursWorkedThisWeekDisplay.text = "This Week: \(hoursWorked) hour and \(minutesWorked) minutes at work."
-                            } else if minutesWorked == 1 {
-                                self.hoursWorkedThisWeekDisplay.text = "This Week: \(hoursWorked) hours and \(minutesWorked) minute at work."
-                            } else {
-                                self.hoursWorkedThisWeekDisplay.text = "This Week: \(hoursWorked) hours and \(minutesWorked) minutes at work."
-                            }
-                        }
-                    }
-                }
-            } else {
-                // Log details of the failure
-                print("Error: \(error!) \(error!.userInfo)")
-            }
+        let realmDay = realm.objects(RealmDay).filter("id = '\(localDate.year).\(localDate.month).\(localDate.day)'").first
+        let minutesWorkedTotal = realmDay!.time
+        let hoursWorkedTotal = minutesWorkedTotal / 60.0
+        let hoursWorked = Int(floor(hoursWorkedTotal))
+        let minutesWorked = Int(floor(minutesWorkedTotal % 60.0))
+        if hoursWorked == 1 && minutesWorked == 1 {
+            self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hour and \(minutesWorked) minute at work."
+        } else if hoursWorked == 1 {
+            self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hour and \(minutesWorked) minutes at work."
+        } else if minutesWorked == 1 {
+            self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hours and \(minutesWorked) minute at work."
+        } else {
+            self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hours and \(minutesWorked) minutes at work."
         }
     }
     
