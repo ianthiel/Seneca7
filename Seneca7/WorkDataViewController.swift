@@ -138,21 +138,32 @@ class WorkDataViewController: UIViewController {
             xTitle: "X axis",
             yTitle: "Y axis",
             bars: [
-                ("t-6", 12),
-                ("t-5", 4.5),
-                ("t-4", 9),
-                ("t-3", 5.4),
-                ("t-2", 6.8),
-                ("t-1", 0),
-                ("t0", realm.objects(RealmDay).filter("id = '\(localDate.year).\(localDate.month).\(localDate.day)'").first!.time)
+                ("d-6", hoursWorkedAtDayIndex(-6)),
+                ("d-5", hoursWorkedAtDayIndex(-5)),
+                ("d-4", hoursWorkedAtDayIndex(-4)),
+                ("d-3", hoursWorkedAtDayIndex(-3)),
+                ("d-2", hoursWorkedAtDayIndex(-2)),
+                ("d-1", hoursWorkedAtDayIndex(-1)),
+                ("d0", hoursWorkedAtDayIndex(0))
             ],
-            color: UIColor.redColor(),
+            color: UIColor.blueColor(),
             barWidth: 20
         )
         self.view.addSubview(chart.view)
         self.chart = chart
         
         print("Finished SetupChart()")
+    }
+    
+    func hoursWorkedAtDayIndex(dayIndex: Int) -> Double {
+        let date = NSDate()
+        let userRegion = Region(calType: CalendarType.Gregorian, loc: NSLocale.currentLocale())
+        let localDate = date.inRegion(userRegion).localDate!
+        if realm.objects(RealmDay).filter("id = '\(localDate.year).\(localDate.month).\(localDate.day-dayIndex)'").first != nil {
+            return realm.objects(RealmDay).filter("id = '\(localDate.year).\(localDate.month).\(localDate.day)'").first!.time / 60.0
+        } else {
+            return 0.0
+        }
     }
     
     func convertHoursToHoursMinutesAndPrint() {
@@ -173,14 +184,25 @@ class WorkDataViewController: UIViewController {
     }
     
     func displayHoursWorkedToday() {
-        
+        print("Start displayHoursWorkedToday")
         let date = NSDate()
         let userRegion = Region(calType: CalendarType.Gregorian, loc: NSLocale.currentLocale())
         let localDate = date.inRegion(userRegion).localDate!
         
         let realmDay = realm.objects(RealmDay).filter("id = '\(localDate.year).\(localDate.month).\(localDate.day)'").first
-        print("realmDay first is: \(realm.objects(RealmDay).filter("id = '\(localDate.year).\(localDate.month).\(localDate.day)'").first)")
-        hoursWorkedTodayDisplay.text = String(realmDay!.time)
+        let minutesWorkedTotal = realmDay!.time
+        let hoursWorkedTotal = minutesWorkedTotal / 60.0
+        let hoursWorked = Int(floor(hoursWorkedTotal))
+        let minutesWorked = Int(floor(minutesWorkedTotal % 60.0))
+        if hoursWorked == 1 && minutesWorked == 1 {
+            self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hour and \(minutesWorked) minute at work."
+        } else if hoursWorked == 1 {
+            self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hour and \(minutesWorked) minutes at work."
+        } else if minutesWorked == 1 {
+            self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hours and \(minutesWorked) minute at work."
+        } else {
+            self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hours and \(minutesWorked) minutes at work."
+        }
     }
     
     func displayHoursWorkedThisWeek() {
