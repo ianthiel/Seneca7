@@ -198,12 +198,26 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
     func updateParseDay(minutesPassed: Double) {
         
         let realmDay = RealmDay()
-        realmDay.id = Int("\(self.localDate.year)\(self.localDate.month)\(self.localDate.day)")!
-        realmDay.time = minutesPassed
-        print(realmDay.id)
-        print(realmDay.time)
-        try! realm.write {
-            realm.add(realmDay, update: true)
+        
+        // check if we've already captured time worked for the current day
+        // if so, update time
+        if realm.objects(RealmDay).filter("id = '\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)'").first != nil {
+            realmDay.id = "\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)"
+            let oldTime = realm.objects(RealmDay).filter("id = '\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)'").first?.time
+            let newTime = oldTime! + minutesPassed
+            realmDay.time = newTime
+            try! realm.write {
+                realm.add(realmDay, update: true)
+                print("realmDay updated with \(minutesPassed) minutes added")
+            }
+        // if this is a new day, create the day and add time
+        } else {
+            realmDay.id = "\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)"
+            realmDay.time = minutesPassed
+            try! realm.write {
+                realm.add(realmDay, update: true)
+                print("realmDay created with \(minutesPassed) minutes")
+            }
         }
     }
     

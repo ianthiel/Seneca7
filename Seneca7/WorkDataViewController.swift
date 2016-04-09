@@ -11,6 +11,7 @@ import Parse
 import SwiftDate
 import CoreLocation
 import SwiftCharts
+import RealmSwift
 
 class WorkDataViewController: UIViewController {
     
@@ -25,6 +26,7 @@ class WorkDataViewController: UIViewController {
     @IBOutlet weak var hoursWorkedDisplay: UILabel!
     
     let locationManager = CLLocationManager()
+    let realm = try! Realm()
     
     let userDefaults = NSUserDefaults.standardUserDefaults()
     let userID = UIDevice.currentDevice().identifierForVendor!.UUIDString
@@ -129,7 +131,6 @@ class WorkDataViewController: UIViewController {
         
         print(NSUserDefaults.standardUserDefaults().valueForKey("tMinusOneWorked"))
         print(NSUserDefaults.standardUserDefaults().valueForKey("tZeroWorked"))
-
         
         let chart = BarsChart(
             frame: CGRectMake(10, 70, 350, 350),
@@ -143,14 +144,11 @@ class WorkDataViewController: UIViewController {
                 ("t-3", 5.4),
                 ("t-2", 6.8),
                 ("t-1", 0),
-                ("t0", 0)
+                ("t0", realm.objects(RealmDay).filter("id = '\(localDate.year).\(localDate.month).\(localDate.day)'").first!.time)
             ],
             color: UIColor.redColor(),
             barWidth: 20
         )
-        
-        print("tMinusOneWorked is \(self.userDefaults.valueForKey("tMinusOneWorked"))")
-        
         self.view.addSubview(chart.view)
         self.chart = chart
         
@@ -180,42 +178,9 @@ class WorkDataViewController: UIViewController {
         let userRegion = Region(calType: CalendarType.Gregorian, loc: NSLocale.currentLocale())
         let localDate = date.inRegion(userRegion).localDate!
         
-        let query = PFQuery(className: "Days")
-        query.whereKey("UserID", equalTo: userID)
-        query.findObjectsInBackgroundWithBlock {
-            (objects: [PFObject]?, error: NSError?) -> Void in
-            
-            if error == nil {
-                // The find succeeded.
-                // Do something with the found objects
-                if let objects = objects {
-                    for object in objects {
-                        if object.valueForKey("Day") as! String != "\(localDate.year).\(localDate.month).\(localDate.day)" {
-                            
-                        } else {
-                            let minutesWorkedTotal = object.valueForKey("Time")! as! Double
-                            let hoursWorkedTotal = minutesWorkedTotal / 60.0
-                            let hoursWorked = Int(floor(hoursWorkedTotal))
-                            let minutesWorked = Int(floor(minutesWorkedTotal % 60.0))
-                            if hoursWorked == 1 && minutesWorked == 1 {
-                                self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hour and \(minutesWorked) minute at work."
-                            } else if hoursWorked == 1 {
-                                self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hour and \(minutesWorked) minutes at work."
-                            } else if minutesWorked == 1 {
-                                self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hours and \(minutesWorked) minute at work."
-                            } else {
-                                self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hours and \(minutesWorked) minutes at work."
-                            }
-                        }
-                    }
-                }
-            } else if error!.code == 101 {
-                self.hoursWorkedTodayDisplay.text = "Today: 0 hours and 0 minutes at work."
-            } else {
-                // Log details of the failure
-                print("Error: \(error!) \(error!.userInfo)")
-            }
-        }
+        let realmDay = realm.objects(RealmDay).filter("id = '\(localDate.year).\(localDate.month).\(localDate.day)'").first
+        print("realmDay first is: \(realm.objects(RealmDay).filter("id = '\(localDate.year).\(localDate.month).\(localDate.day)'").first)")
+        hoursWorkedTodayDisplay.text = String(realmDay!.time)
     }
     
     func displayHoursWorkedThisWeek() {
