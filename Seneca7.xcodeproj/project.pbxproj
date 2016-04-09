@@ -14,6 +14,11 @@
 		241D5C851C0E4C4600DF0F41 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 241D5C831C0E4C4600DF0F41 /* LaunchScreen.storyboard */; };
 		241D5C901C0E4C4600DF0F41 /* Seneca7Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241D5C8F1C0E4C4600DF0F41 /* Seneca7Tests.swift */; };
 		241D5C9B1C0E4C4600DF0F41 /* Seneca7UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241D5C9A1C0E4C4600DF0F41 /* Seneca7UITests.swift */; };
+		24E243071CB74F650099B790 /* RealmDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E243061CB74F650099B790 /* RealmDay.swift */; };
+		24E2430A1CB752390099B790 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24E243081CB752390099B790 /* Realm.framework */; };
+		24E2430B1CB752390099B790 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 24E243081CB752390099B790 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		24E2430C1CB752390099B790 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24E243091CB752390099B790 /* RealmSwift.framework */; };
+		24E2430D1CB752390099B790 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 24E243091CB752390099B790 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3C5AA8F31C0FA44A001FF292 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5AA8F21C0FA44A001FF292 /* Utilities.swift */; };
 		3C827F241C0F9D11008B3B98 /* AddWorkLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C827F231C0F9D11008B3B98 /* AddWorkLocationViewController.swift */; };
 		3CAFC7F11C2E1F5C0048926F /* WorkLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CAFC7F01C2E1F5C0048926F /* WorkLocationViewController.swift */; };
@@ -40,6 +45,21 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		24E2430E1CB752390099B790 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				24E2430D1CB752390099B790 /* RealmSwift.framework in Embed Frameworks */,
+				24E2430B1CB752390099B790 /* Realm.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		1A368F2B5F0767046D89E44A /* Pods-Seneca7.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Seneca7.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Seneca7/Pods-Seneca7.debug.xcconfig"; sourceTree = "<group>"; };
 		241D5C771C0E4C4600DF0F41 /* Seneca7.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Seneca7.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,6 +75,9 @@
 		241D5C961C0E4C4600DF0F41 /* Seneca7UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Seneca7UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		241D5C9A1C0E4C4600DF0F41 /* Seneca7UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Seneca7UITests.swift; sourceTree = "<group>"; };
 		241D5C9C1C0E4C4600DF0F41 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		24E243061CB74F650099B790 /* RealmDay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmDay.swift; sourceTree = "<group>"; };
+		24E243081CB752390099B790 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
+		24E243091CB752390099B790 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
 		35757FE333C75B72E5F81704 /* Pods_Seneca7.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Seneca7.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C5AA8F21C0FA44A001FF292 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		3C827F231C0F9D11008B3B98 /* AddWorkLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddWorkLocationViewController.swift; sourceTree = "<group>"; };
@@ -70,7 +93,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24E2430A1CB752390099B790 /* Realm.framework in Frameworks */,
 				3CD5B8951C150FCA001FAA29 /* MapKit.framework in Frameworks */,
+				24E2430C1CB752390099B790 /* RealmSwift.framework in Frameworks */,
 				60632622761A7E3C7EA59137 /* Pods_Seneca7.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -104,6 +129,8 @@
 		241D5C6E1C0E4C4600DF0F41 = {
 			isa = PBXGroup;
 			children = (
+				24E243081CB752390099B790 /* Realm.framework */,
+				24E243091CB752390099B790 /* RealmSwift.framework */,
 				241D5C791C0E4C4600DF0F41 /* Seneca7 */,
 				241D5C8E1C0E4C4600DF0F41 /* Seneca7Tests */,
 				241D5C991C0E4C4600DF0F41 /* Seneca7UITests */,
@@ -129,6 +156,7 @@
 				241D5C7A1C0E4C4600DF0F41 /* AppDelegate.swift */,
 				241D5C7C1C0E4C4600DF0F41 /* ViewController.swift */,
 				3CAFC7F01C2E1F5C0048926F /* WorkLocationViewController.swift */,
+				24E243061CB74F650099B790 /* RealmDay.swift */,
 				3C827F231C0F9D11008B3B98 /* AddWorkLocationViewController.swift */,
 				3CAFC7F21C2E41DC0048926F /* WorkDataViewController.swift */,
 				3CD5B8921C14B9BE001FAA29 /* WorkLocation.swift */,
@@ -181,6 +209,8 @@
 				241D5C751C0E4C4600DF0F41 /* Resources */,
 				F24799ABA03D392AECEC47EE /* Embed Pods Frameworks */,
 				74E697C010F0C7DB0BAA6DDA /* Copy Pods Resources */,
+				24E2430E1CB752390099B790 /* Embed Frameworks */,
+				24E2430F1CB752560099B790 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -239,6 +269,7 @@
 				TargetAttributes = {
 					241D5C761C0E4C4600DF0F41 = {
 						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = DJVKHU7QUH;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -306,6 +337,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		24E2430F1CB752560099B790 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "bash \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework/strip-frameworks.sh\"";
+		};
 		74E697C010F0C7DB0BAA6DDA /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -360,6 +404,7 @@
 			files = (
 				241D5C7D1C0E4C4600DF0F41 /* ViewController.swift in Sources */,
 				241D5C7B1C0E4C4600DF0F41 /* AppDelegate.swift in Sources */,
+				24E243071CB74F650099B790 /* RealmDay.swift in Sources */,
 				3CAFC7F11C2E1F5C0048926F /* WorkLocationViewController.swift in Sources */,
 				3CAFC7F31C2E41DC0048926F /* WorkDataViewController.swift in Sources */,
 				3C5AA8F31C0FA44A001FF292 /* Utilities.swift in Sources */,
@@ -505,6 +550,11 @@
 			baseConfigurationReference = 1A368F2B5F0767046D89E44A /* Pods-Seneca7.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Seneca7/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -518,6 +568,11 @@
 			baseConfigurationReference = DA3B9F117AAB8F3014F93B5E /* Pods-Seneca7.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Seneca7/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

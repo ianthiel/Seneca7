@@ -11,8 +11,10 @@ import CoreLocation
 import MapKit
 import Parse
 import SwiftDate
+import RealmSwift
 
 let kSavedItemsKey = "savedItems"
+let realm = try! Realm()
 
 class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, AddWorkLocationsViewControllerDelegate {
     
@@ -54,9 +56,11 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
         }
     }
     
+    // Define localDate as your currentLocale and define userID
     let localDate = NSDate().inRegion(Region(calType: CalendarType.Gregorian, loc: NSLocale.currentLocale())).localDate!
     let userID = UIDevice.currentDevice().identifierForVendor!.UUIDString
     
+    // Define function that gives the different between the last saved time and the current time
     func updateTime() -> Double {
         let savedTime = userDefaults.valueForKey("dateTime")
         let secondsPassed = NSDate().timeIntervalSinceDate(savedTime as! NSDate)
@@ -73,17 +77,8 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
         return minutesPassed
     }
     
-    func logParseWorkEvent(EventType: String) {
-        let workEvent = PFObject(className: "WorkEvent")
-        print("CLRegionState for region was \(EventType)")
-        workEvent["EventDateTime"] = NSDate()
-        workEvent["UserID"] = userID
-        workEvent["EventType"] = EventType
-        workEvent.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in print("WorkEvent \(EventType) object has been saved.")
-        }
-    }
-    
     func updateParseYear(minutesPassed: Double) {
+        // Begin Parse code for updating Year
         
         let years = PFObject(className: "Years")
         let yearsQuery = PFQuery(className:"Years")
@@ -202,47 +197,13 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
     
     func updateParseDay(minutesPassed: Double) {
         
-        let days = PFObject(className: "Days")
-        let daysQuery = PFQuery(className:"Days")
-        daysQuery.whereKey("UserID", equalTo:userID)
-        daysQuery.orderByDescending("createdAt")
-        daysQuery.getFirstObjectInBackgroundWithBlock {
-            (object: PFObject?, error: NSError?) -> Void in
-            
-            if error != nil {
-                print("Error: \(error)")
-                if error!.code == 101 {
-                    days["UserID"] = self.userID
-                    days["Day"] = "\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)"
-                    days["Time"] = minutesPassed
-                    print("ParseDay minutesPassed is \(minutesPassed)")
-                    days.saveInBackground()
-                    print("ParseDay created")
-                } else {
-                    print("Some error other than 101 was triggered updating ParseDay")
-                }
-            } else if object == nil {
-                print("ParseDay object == nil")
-                days["UserID"] = self.userID
-                days["Day"] = "\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)"
-                days["Time"] = minutesPassed
-                print("ParseDay minutesPassed is \(minutesPassed)")
-                days.saveInBackground()
-                print("ParseDay created")
-            } else if object!.valueForKey("Day") as! String == "\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)" {
-                let newTime = object!.valueForKey("Time") as! Double + minutesPassed
-                print("ParseDay minutesPassed is \(minutesPassed) and newTime is \(newTime)")
-                object!.setValue(newTime, forKey: "Time")
-                object!.saveInBackground()
-                print("ParseDay updated")
-            } else {
-                days["UserID"] = self.userID
-                days["Day"] = "\(self.localDate.year).\(self.localDate.month).\(self.localDate.day)"
-                days["Time"] = minutesPassed
-                print("ParseDay minutesPassed is \(minutesPassed)")
-                days.saveInBackground()
-                print("ParseDay created")
-            }
+        let realmDay = RealmDay()
+        realmDay.id = Int("\(self.localDate.year)\(self.localDate.month)\(self.localDate.day)")
+        realmDay.time = minutesPassed
+        print(realmDay.id)
+        print(realmDay.time)
+        try! realm.write {
+            realm.add(realmDay, update: true)
         }
     }
     
