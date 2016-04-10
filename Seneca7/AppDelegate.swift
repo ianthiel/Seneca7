@@ -8,8 +8,6 @@
 
 import UIKit
 import CoreLocation
-import Parse
-import Bolts
 import SwiftDate
 
 @UIApplicationMain
@@ -26,11 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         locationManager.requestAlwaysAuthorization()
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound, .Alert, .Badge], categories: nil))
         UIApplication.sharedApplication().cancelAllLocalNotifications()
-        
-        // MARK: Parse setup
-        Parse.enableLocalDatastore()
-        Parse.setApplicationId("40EKKWRWCZnJFP72EwpYXs404d8IqXveNtN1z3Vb", clientKey: "rJvQIObidRjZL59IMbKGbtKhhvmmvcgENaDW3NPD")
-        PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
         
         return true
     }

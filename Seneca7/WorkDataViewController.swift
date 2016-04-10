@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Parse
 import SwiftDate
 import CoreLocation
 import SwiftCharts
@@ -43,94 +42,11 @@ class WorkDataViewController: UIViewController {
         
         setupChart()
     }
-    
-    func getHoursForDate(date: String) -> Double {
-        let date = NSDate()
-        let userRegion = Region(calType: CalendarType.Gregorian, loc: NSLocale.currentLocale())
-        let localDate = date.inRegion(userRegion).localDate!
-        var hoursWorked = 0.0
-        
-        let query = PFQuery(className: "Days")
-        query.whereKey("UserID", equalTo: userID)
-        query.findObjectsInBackgroundWithBlock {
-            (objects: [PFObject]?, error: NSError?) -> Void in
-            
-            if error == nil {
-                // The find succeeded.
-                // Do something with the found objects
-                if let objects = objects {
-                    for object in objects {
-                        if object.valueForKey("Day") as! String == date {
-                            let hoursWorked = (object.valueForKey("Time")! as! Double) / 60.0
-                        } else if object.valueForKey("Day") as! String == "\(localDate.year).\(localDate.month).\(localDate.day - 1)" {
-                            let hoursWorked = (object.valueForKey("Time")! as! Double) / 60.0
-                        }
-                    }
-                }
-            } else if error!.code == 101 {
-                print("Error 101")
-            } else {
-                // Log details of the failure
-                print("Error: \(error!) \(error!.userInfo)")
-            }
-        }
-        return hoursWorked
-    }
-    
+
     func setupChart() {
         let chartConfig = BarsChartConfig(
             valsAxisConfig: ChartAxisConfig(from: 0, to: 24, by: 2)
         )
-        
-        let date = NSDate()
-        let userRegion = Region(calType: CalendarType.Gregorian, loc: NSLocale.currentLocale())
-        let localDate = date.inRegion(userRegion).localDate!
-        var tZeroWorked = 0.0
-        var tMinusOneWorked = 0.0
-        
-        let query = PFQuery(className: "Days")
-        query.whereKey("UserID", equalTo: userID)
-        query.limit = 7
-        query.orderByDescending("createdAt")
-        query.findObjectsInBackgroundWithBlock {
-            (objects: [PFObject]?, error: NSError?) -> Void in
-                        
-            if error != nil {
-                // Log details of the failure
-                if error!.code == 101 {
-                    // Error code 101 = ObjectNotFound
-                    print("Error: 101 ObjectNotFound in PFQuery to update graph")
-                } else {
-                    print("Error: \(error!) \(error!.userInfo) in PFQuery to update graph")
-                }
-            } else {
-                // The find succeeded.
-                // Do something with the found objects
-                if let objects = objects {
-                    for object in objects {
-                        print("object is \(object)")
-                        if object.valueForKey("Day") as! String == "\(localDate.year).\(localDate.month).\(localDate.day)" {
-                            tZeroWorked = (object.valueForKey("Time")! as! Double) / 60.0
-                            print("tZeroWorked is \(tZeroWorked)")
-                            NSUserDefaults.standardUserDefaults().setValue(tZeroWorked, forKey: "tZeroWorked")
-                            NSUserDefaults.standardUserDefaults().synchronize()
-                        } else if object.valueForKey("Day") as! String == "\(localDate.year).\(localDate.month).\(localDate.day - 1)" {
-                            tMinusOneWorked = (object.valueForKey("Time")! as! Double) / 60.0
-                            print("tMinusOneWorked is \(tMinusOneWorked)")
-                            NSUserDefaults.standardUserDefaults().setValue(tMinusOneWorked, forKey: "tMinusOneWorked")
-                            NSUserDefaults.standardUserDefaults().synchronize()
-                        } else {
-                            print("Error: tZero and tMinusOneWorked not found or set")
-                        }
-                    }
-                } else {
-                    print("Entered 'else' of graph query")
-                }
-            }
-        }
-        
-        print(NSUserDefaults.standardUserDefaults().valueForKey("tMinusOneWorked"))
-        print(NSUserDefaults.standardUserDefaults().valueForKey("tZeroWorked"))
         
         let chart = BarsChart(
             frame: CGRectMake(10, 70, 350, 350),

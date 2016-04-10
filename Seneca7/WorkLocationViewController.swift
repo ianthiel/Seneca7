@@ -9,7 +9,6 @@
 import UIKit
 import CoreLocation
 import MapKit
-import Parse
 import SwiftDate
 import RealmSwift
 
@@ -77,7 +76,7 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
         return minutesPassed
     }
     
-    func updateParseYear(minutesPassed: Double) {
+    func updateRealmYear(minutesPassed: Double) {
         
         let realmYear = RealmYear()
         
@@ -103,7 +102,7 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
         }
     }
     
-    func updateParseMonth(minutesPassed: Double) {
+    func updateRealmMonth(minutesPassed: Double) {
         
         let realmMonth = RealmMonth()
         
@@ -129,7 +128,7 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
         }
     }
     
-    func updateParseWeek(minutesPassed: Double) {
+    func updateRealmWeek(minutesPassed: Double) {
         
         let realmWeek = RealmWeek()
         
@@ -155,7 +154,7 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
         }
     }
     
-    func updateParseDay(minutesPassed: Double) {
+    func updateRealmDay(minutesPassed: Double) {
         
         let realmDay = RealmDay()
         
@@ -202,19 +201,19 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
                         userDefaults.setValue(new, forKey: "minutes")
                         userDefaults.setValue(NSDate(), forKey: "dateTime")
                         userDefaults.synchronize()
-                        updateParseYear(minutesPassed)
-                        updateParseMonth(minutesPassed)
-                        updateParseWeek(minutesPassed)
-                        updateParseDay(minutesPassed)
+                        updateRealmYear(minutesPassed)
+                        updateRealmMonth(minutesPassed)
+                        updateRealmWeek(minutesPassed)
+                        updateRealmDay(minutesPassed)
                     } else {
                         let new = minutesPassed
                         userDefaults.setValue(new, forKey: "minutes")
                         userDefaults.setValue(NSDate(), forKey: "dateTime")
                         userDefaults.synchronize()
-                        updateParseYear(minutesPassed)
-                        updateParseMonth(minutesPassed)
-                        updateParseWeek(minutesPassed)
-                        updateParseDay(minutesPassed)
+                        updateRealmYear(minutesPassed)
+                        updateRealmMonth(minutesPassed)
+                        updateRealmWeek(minutesPassed)
+                        updateRealmDay(minutesPassed)
                     }
                 } else {
                     userDefaults.setValue(NSDate(), forKey: "dateTime")
@@ -243,10 +242,10 @@ class WorkLocationViewController: UIViewController, CLLocationManagerDelegate, M
                     userDefaults.setValue(new, forKey: "minutes")
                     userDefaults.setValue("Outside", forKey: "Status")
                     userDefaults.synchronize()
-                    updateParseYear(minutesPassed)
-                    updateParseMonth(minutesPassed)
-                    updateParseWeek(minutesPassed)
-                    updateParseDay(minutesPassed)
+                    updateRealmYear(minutesPassed)
+                    updateRealmMonth(minutesPassed)
+                    updateRealmWeek(minutesPassed)
+                    updateRealmDay(minutesPassed)
                 } else {
                     // do nothing
                 }

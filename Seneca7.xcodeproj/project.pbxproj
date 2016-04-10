@@ -159,16 +159,12 @@
 		241D5C791C0E4C4600DF0F41 /* Seneca7 */ = {
 			isa = PBXGroup;
 			children = (
+				24A8C1D61CB9E43600841A4E /* Models */,
 				241D5C7A1C0E4C4600DF0F41 /* AppDelegate.swift */,
 				241D5C7C1C0E4C4600DF0F41 /* ViewController.swift */,
 				3CAFC7F01C2E1F5C0048926F /* WorkLocationViewController.swift */,
-				24A8C1D41CB9CB9C00841A4E /* RealmYear.swift */,
-				24A8C1D21CB9CA5B00841A4E /* RealmMonth.swift */,
-				24A8C1D01CB9BEC500841A4E /* RealmWeek.swift */,
-				24E243061CB74F650099B790 /* RealmDay.swift */,
 				3C827F231C0F9D11008B3B98 /* AddWorkLocationViewController.swift */,
 				3CAFC7F21C2E41DC0048926F /* WorkDataViewController.swift */,
-				3CD5B8921C14B9BE001FAA29 /* WorkLocation.swift */,
 				3C5AA8F21C0FA44A001FF292 /* Utilities.swift */,
 				241D5C7E1C0E4C4600DF0F41 /* Main.storyboard */,
 				241D5C811C0E4C4600DF0F41 /* Assets.xcassets */,
@@ -194,6 +190,18 @@
 				241D5C9C1C0E4C4600DF0F41 /* Info.plist */,
 			);
 			path = Seneca7UITests;
+			sourceTree = "<group>";
+		};
+		24A8C1D61CB9E43600841A4E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				24A8C1D41CB9CB9C00841A4E /* RealmYear.swift */,
+				24A8C1D21CB9CA5B00841A4E /* RealmMonth.swift */,
+				24A8C1D01CB9BEC500841A4E /* RealmWeek.swift */,
+				24E243061CB74F650099B790 /* RealmDay.swift */,
+				3CD5B8921C14B9BE001FAA29 /* WorkLocation.swift */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		4356599B7DDEBB8BE324A688 /* Frameworks */ = {
