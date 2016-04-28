@@ -75,8 +75,11 @@ class WorkDataViewController: UIViewController {
         let date = NSDate()
         let userRegion = Region(calType: CalendarType.Gregorian, loc: NSLocale.currentLocale())
         let localDate = date.inRegion(userRegion).localDate!
-        if realm.objects(RealmDay).filter("id = '\(localDate.year).\(localDate.month).\(localDate.day-dayIndex)'").first != nil {
-            return realm.objects(RealmDay).filter("id = '\(localDate.year).\(localDate.month).\(localDate.day-dayIndex)'").first!.time / 60.0
+        // begin tests
+        print("localDate at dayIndex \(dayIndex) is \(localDate.day+dayIndex)")
+        // end tests
+        if realm.objects(RealmDay).filter("id = '\(localDate.year).\(localDate.month).\(localDate.day+dayIndex)'").first != nil {
+            return realm.objects(RealmDay).filter("id = '\(localDate.year).\(localDate.month).\(localDate.day+dayIndex)'").first!.time / 60.0
         } else {
             return 0.0
         }
@@ -99,25 +102,34 @@ class WorkDataViewController: UIViewController {
         }
     }
     
+    // MARK: Begin functions that display time worked below the graph
+    
     func displayHoursWorkedToday() {
         print("Start displayHoursWorkedToday")
         let date = NSDate()
         let userRegion = Region(calType: CalendarType.Gregorian, loc: NSLocale.currentLocale())
         let localDate = date.inRegion(userRegion).localDate!
         
+        // Query Realm for the current realmDay
         let realmDay = realm.objects(RealmDay).filter("id = '\(localDate.year).\(localDate.month).\(localDate.day)'").first
-        let minutesWorkedTotal = realmDay!.time
-        let hoursWorkedTotal = minutesWorkedTotal / 60.0
-        let hoursWorked = Int(floor(hoursWorkedTotal))
-        let minutesWorked = Int(floor(minutesWorkedTotal % 60.0))
-        if hoursWorked == 1 && minutesWorked == 1 {
-            self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hour and \(minutesWorked) minute at work."
-        } else if hoursWorked == 1 {
-            self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hour and \(minutesWorked) minutes at work."
-        } else if minutesWorked == 1 {
-            self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hours and \(minutesWorked) minute at work."
+        // If realmDay is nil, we haven't tracked an work hours for today. In this case, display 0.
+        if realmDay == nil {
+            self.hoursWorkedTodayDisplay.text = "Today: 0 hours and 0 minutes at work."
         } else {
-            self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hours and \(minutesWorked) minutes at work."
+            // If realmDay is not nil, we've tracked work hours for this day
+            let minutesWorkedTotal = realmDay!.time
+            let hoursWorkedTotal = minutesWorkedTotal / 60.0
+            let hoursWorked = Int(floor(hoursWorkedTotal))
+            let minutesWorked = Int(floor(minutesWorkedTotal % 60.0))
+            if hoursWorked == 1 && minutesWorked == 1 {
+                self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hour and \(minutesWorked) minute at work."
+            } else if hoursWorked == 1 {
+                self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hour and \(minutesWorked) minutes at work."
+            } else if minutesWorked == 1 {
+                self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hours and \(minutesWorked) minute at work."
+            } else {
+                self.hoursWorkedTodayDisplay.text = "Today: \(hoursWorked) hours and \(minutesWorked) minutes at work."
+            }
         }
     }
     
@@ -128,18 +140,22 @@ class WorkDataViewController: UIViewController {
         let localDate = date.inRegion(userRegion).localDate!
         
         let realmWeek = realm.objects(RealmWeek).filter("id = '\(localDate.year).\(localDate.weekOfYear)'").first
-        let minutesWorkedTotal = realmWeek!.time
-        let hoursWorkedTotal = minutesWorkedTotal / 60.0
-        let hoursWorked = Int(floor(hoursWorkedTotal))
-        let minutesWorked = Int(floor(minutesWorkedTotal % 60.0))
-        if hoursWorked == 1 && minutesWorked == 1 {
-            self.hoursWorkedThisWeekDisplay.text = "This Week: \(hoursWorked) hour and \(minutesWorked) minute at work."
-        } else if hoursWorked == 1 {
-            self.hoursWorkedThisWeekDisplay.text = "This Week: \(hoursWorked) hour and \(minutesWorked) minutes at work."
-        } else if minutesWorked == 1 {
-            self.hoursWorkedThisWeekDisplay.text = "This Week: \(hoursWorked) hours and \(minutesWorked) minute at work."
+        if realmWeek == nil {
+            self.hoursWorkedThisWeekDisplay.text = "This Week: 0 hours and 0 minutes at work."
         } else {
-            self.hoursWorkedThisWeekDisplay.text = "This Week: \(hoursWorked) hours and \(minutesWorked) minutes at work."
+            let minutesWorkedTotal = realmWeek!.time
+            let hoursWorkedTotal = minutesWorkedTotal / 60.0
+            let hoursWorked = Int(floor(hoursWorkedTotal))
+            let minutesWorked = Int(floor(minutesWorkedTotal % 60.0))
+            if hoursWorked == 1 && minutesWorked == 1 {
+                self.hoursWorkedThisWeekDisplay.text = "This Week: \(hoursWorked) hour and \(minutesWorked) minute at work."
+            } else if hoursWorked == 1 {
+                self.hoursWorkedThisWeekDisplay.text = "This Week: \(hoursWorked) hour and \(minutesWorked) minutes at work."
+            } else if minutesWorked == 1 {
+                self.hoursWorkedThisWeekDisplay.text = "This Week: \(hoursWorked) hours and \(minutesWorked) minute at work."
+            } else {
+                self.hoursWorkedThisWeekDisplay.text = "This Week: \(hoursWorked) hours and \(minutesWorked) minutes at work."
+            }
         }
     }
     
@@ -150,18 +166,22 @@ class WorkDataViewController: UIViewController {
         let localDate = date.inRegion(userRegion).localDate!
         
         let realmMonth = realm.objects(RealmMonth).filter("id = '\(localDate.year).\(localDate.month)'").first
-        let minutesWorkedTotal = realmMonth!.time
-        let hoursWorkedTotal = minutesWorkedTotal / 60.0
-        let hoursWorked = Int(floor(hoursWorkedTotal))
-        let minutesWorked = Int(floor(minutesWorkedTotal % 60.0))
-        if hoursWorked == 1 && minutesWorked == 1 {
-            self.hoursWorkedThisMonthDisplay.text = "This Month: \(hoursWorked) hour and \(minutesWorked) minute at work."
-        } else if hoursWorked == 1 {
-            self.hoursWorkedThisMonthDisplay.text = "This Month: \(hoursWorked) hour and \(minutesWorked) minutes at work."
-        } else if minutesWorked == 1 {
-            self.hoursWorkedThisMonthDisplay.text = "This Month: \(hoursWorked) hours and \(minutesWorked) minute at work."
+        if realmMonth == nil {
+            self.hoursWorkedThisMonthDisplay.text = "This Month: 0 hours and 0 minutes at work."
         } else {
-            self.hoursWorkedThisMonthDisplay.text = "This Month: \(hoursWorked) hours and \(minutesWorked) minutes at work."
+            let minutesWorkedTotal = realmMonth!.time
+            let hoursWorkedTotal = minutesWorkedTotal / 60.0
+            let hoursWorked = Int(floor(hoursWorkedTotal))
+            let minutesWorked = Int(floor(minutesWorkedTotal % 60.0))
+            if hoursWorked == 1 && minutesWorked == 1 {
+                self.hoursWorkedThisMonthDisplay.text = "This Month: \(hoursWorked) hour and \(minutesWorked) minute at work."
+            } else if hoursWorked == 1 {
+                self.hoursWorkedThisMonthDisplay.text = "This Month: \(hoursWorked) hour and \(minutesWorked) minutes at work."
+            } else if minutesWorked == 1 {
+                self.hoursWorkedThisMonthDisplay.text = "This Month: \(hoursWorked) hours and \(minutesWorked) minute at work."
+            } else {
+                self.hoursWorkedThisMonthDisplay.text = "This Month: \(hoursWorked) hours and \(minutesWorked) minutes at work."
+            }
         }
     }
     
@@ -172,18 +192,22 @@ class WorkDataViewController: UIViewController {
         let localDate = date.inRegion(userRegion).localDate!
         
         let realmYear = realm.objects(RealmYear).filter("id = '\(localDate.year)'").first
-        let minutesWorkedTotal = realmYear!.time
-        let hoursWorkedTotal = minutesWorkedTotal / 60.0
-        let hoursWorked = Int(floor(hoursWorkedTotal))
-        let minutesWorked = Int(floor(minutesWorkedTotal % 60.0))
-        if hoursWorked == 1 && minutesWorked == 1 {
-            self.hoursWorkedThisYearDisplay.text = "This Year: \(hoursWorked) hour and \(minutesWorked) minute at work."
-        } else if hoursWorked == 1 {
-            self.hoursWorkedThisYearDisplay.text = "This Year: \(hoursWorked) hour and \(minutesWorked) minutes at work."
-        } else if minutesWorked == 1 {
-            self.hoursWorkedThisYearDisplay.text = "This Year: \(hoursWorked) hours and \(minutesWorked) minute at work."
+        if realmYear == nil {
+            self.hoursWorkedThisYearDisplay.text = "This Year: 0 hours and 0 minutes at work."
         } else {
-            self.hoursWorkedThisYearDisplay.text = "This Year: \(hoursWorked) hours and \(minutesWorked) minutes at work."
+            let minutesWorkedTotal = realmYear!.time
+            let hoursWorkedTotal = minutesWorkedTotal / 60.0
+            let hoursWorked = Int(floor(hoursWorkedTotal))
+            let minutesWorked = Int(floor(minutesWorkedTotal % 60.0))
+            if hoursWorked == 1 && minutesWorked == 1 {
+                self.hoursWorkedThisYearDisplay.text = "This Year: \(hoursWorked) hour and \(minutesWorked) minute at work."
+            } else if hoursWorked == 1 {
+                self.hoursWorkedThisYearDisplay.text = "This Year: \(hoursWorked) hour and \(minutesWorked) minutes at work."
+            } else if minutesWorked == 1 {
+                self.hoursWorkedThisYearDisplay.text = "This Year: \(hoursWorked) hours and \(minutesWorked) minute at work."
+            } else {
+                self.hoursWorkedThisYearDisplay.text = "This Year: \(hoursWorked) hours and \(minutesWorked) minutes at work."
+            }
         }
     }
     

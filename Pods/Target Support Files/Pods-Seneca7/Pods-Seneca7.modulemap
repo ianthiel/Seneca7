@@ -1,0 +1,6 @@
+framework module Pods_Seneca7 {
+  umbrella header "Pods-Seneca7-umbrella.h"
+
+  export *
+  module * { export * }
+}
