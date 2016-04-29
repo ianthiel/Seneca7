@@ -54,13 +54,13 @@ class WorkDataViewController: UIViewController {
             xTitle: "X axis",
             yTitle: "Y axis",
             bars: [
-                ("d-6", hoursWorkedAtDayIndex(-6)),
-                ("d-5", hoursWorkedAtDayIndex(-5)),
-                ("d-4", hoursWorkedAtDayIndex(-4)),
-                ("d-3", hoursWorkedAtDayIndex(-3)),
-                ("d-2", hoursWorkedAtDayIndex(-2)),
-                ("d-1", hoursWorkedAtDayIndex(-1)),
-                ("d0", hoursWorkedAtDayIndex(0))
+                (weekdayNameAtDayIndex(-6), hoursWorkedAtDayIndex(-6)),
+                (weekdayNameAtDayIndex(-5), hoursWorkedAtDayIndex(-5)),
+                (weekdayNameAtDayIndex(-4), hoursWorkedAtDayIndex(-4)),
+                (weekdayNameAtDayIndex(-3), hoursWorkedAtDayIndex(-3)),
+                (weekdayNameAtDayIndex(-2), hoursWorkedAtDayIndex(-2)),
+                (weekdayNameAtDayIndex(-1), hoursWorkedAtDayIndex(-1)),
+                (weekdayNameAtDayIndex(0), hoursWorkedAtDayIndex(0))
             ],
             color: UIColor.blueColor(),
             barWidth: 20
@@ -71,13 +71,35 @@ class WorkDataViewController: UIViewController {
         print("Finished SetupChart()")
     }
     
+    func weekdayNameAtDayIndex(dayIndex: Int) -> String {
+        let date = NSDate()
+        let userRegion = Region(calType: CalendarType.Gregorian, loc: NSLocale.currentLocale())
+        let localDate = date.inRegion(userRegion).localDate!
+        let localDateAtDayIndex = localDate+dayIndex.days
+        switch localDateAtDayIndex.weekday {
+        case 1:
+            return "Su"
+        case 2:
+            return "M"
+        case 3:
+            return "T"
+        case 4:
+            return "W"
+        case 5:
+            return "Th"
+        case 6:
+            return "F"
+        case 7:
+            return "S"
+        default:
+            return "Error"
+        }
+    }
+    
     func hoursWorkedAtDayIndex(dayIndex: Int) -> Double {
         let date = NSDate()
         let userRegion = Region(calType: CalendarType.Gregorian, loc: NSLocale.currentLocale())
         let localDate = date.inRegion(userRegion).localDate!
-        // begin tests
-        print("localDate at dayIndex \(dayIndex) is \(localDate.day+dayIndex)")
-        // end tests
         if realm.objects(RealmDay).filter("id = '\(localDate.year).\(localDate.month).\(localDate.day+dayIndex)'").first != nil {
             return realm.objects(RealmDay).filter("id = '\(localDate.year).\(localDate.month).\(localDate.day+dayIndex)'").first!.time / 60.0
         } else {
