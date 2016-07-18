@@ -25,6 +25,7 @@ class WorkDataViewController: UIViewController {
     @IBOutlet weak var hoursWorkedDisplay: UILabel!
     
     let locationManager = CLLocationManager()
+    
     let realm = try! Realm()
     
     let userDefaults = NSUserDefaults.standardUserDefaults()
